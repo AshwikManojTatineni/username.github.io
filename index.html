@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashwik Manoj Tatineni — Robotics Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+/* ===================== GLOBAL RESET ===================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: #0a0a0a; color: #eee; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+/* ===================== NAV ===================== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  color: #fff;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 0.25rem; list-style: none; flex-wrap: wrap; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all 0.2s;
+  color: #aaa;
+}
+.nav-links a:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* ===================== SECTION SHARED ===================== */
+section { min-height: 100vh; position: relative; overflow: hidden; }
+.section-inner { max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 4rem; }
+
+/* ===================== HOME — GEN-X SOFT CLUB ===================== */
+#home {
+  background: #0d0b14;
+  display: flex; flex-direction: column; justify-content: center;
+}
+#home::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 60%, rgba(160,100,220,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(80,200,180,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 60% 80%, rgba(220,80,160,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* film grain */
+#home::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4; pointer-events: none;
+}
+.home-inner {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+  display: flex; flex-direction: column; justify-content: center; min-height: 100vh;
+}
+.home-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: rgba(200,160,255,0.7);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+.home-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 11vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: #fff;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+.home-name span {
+  display: block;
+  background: linear-gradient(135deg, #c97dff 0%, #7dd4fc 40%, #f0abfc 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.home-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: rgba(220,200,255,0.6);
+  font-weight: 300;
+  margin-top: 1.5rem;
+  max-width: 560px;
+  line-height: 1.6;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+.home-tags {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  margin-top: 2.5rem;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.home-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(200,150,255,0.35);
+  color: rgba(200,150,255,0.8);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+.home-cta {
+  display: flex; gap: 1rem; margin-top: 3rem;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+.btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.8rem 2rem;
+  border-radius: 3px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #a855f7, #38bdf8);
+  color: #fff;
+  border: none;
+}
+.btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+.btn-secondary {
+  background: transparent;
+  color: rgba(200,150,255,0.8);
+  border: 1px solid rgba(200,150,255,0.4);
+}
+.btn-secondary:hover { border-color: rgba(200,150,255,0.9); color: #fff; }
+
+.home-scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:.2} 50%{opacity:.6} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* ===================== ABOUT (inside home section) ===================== */
+.about-strip {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.02);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 2rem;
+  display: flex; gap: 3rem; overflow-x: auto;
+}
+.about-stat { white-space: nowrap; }
+.about-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem; color: #c97dff;
+}
+.about-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; color: rgba(255,255,255,0.35);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  display: block;
+}
+
+/* ===================== SECTION HEADER SHARED ===================== */
+.sec-header { margin-bottom: 3rem; }
+.sec-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.sec-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+}
+
+/* ===================== PROJECT CARD GRID ===================== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  border-radius: 4px;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.project-card:hover { transform: translateY(-4px); }
+.project-card-year {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.2em;
+  text-transform: uppercase; opacity: 0.5;
+  margin-bottom: 0.8rem;
+}
+.project-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+.project-card p {
+  font-size: 0.8rem;
+  line-height: 1.65;
+  opacity: 0.7;
+}
+.project-tags {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+  margin-top: 1.2rem;
+}
+.ptag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* ===================== PERCEPTION — SURVEILLANCE ===================== */
+#perception {
+  background: #060808;
+}
+#perception::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,255,60,0.018) 0px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(0,255,60,0.018) 0px, transparent 1px, transparent 80px);
+  pointer-events: none;
+}
+#perception .scanline {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(transparent, rgba(0,255,80,0.08), transparent);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes scan { from{top:-10px} to{top:100vh} }
+
+#perception .sec-label { color: #00ff3c; }
+#perception .sec-title {
+  font-family: 'Share Tech Mono', monospace;
+  color: #e8ffe8;
+}
+#perception .sec-title span { color: #00ff3c; }
+
+#perception .project-card {
+  background: rgba(0,255,60,0.04);
+  border: 1px solid rgba(0,255,60,0.2);
+}
+#perception .project-card:hover {
+  border-color: rgba(0,255,60,0.5);
+  box-shadow: 0 0 30px rgba(0,255,60,0.08);
+}
+#perception .project-card h3 { font-family: 'Share Tech Mono', monospace; color: #a8ffc0; }
+#perception .project-card-year { color: #00ff3c; }
+#perception .ptag { background: rgba(0,255,60,0.1); color: #00ff3c; border: 1px solid rgba(0,255,60,0.25); }
+
+/* HUD corners */
+#perception .project-card::before,
+#perception .project-card::after {
+  content: ''; position: absolute;
+  width: 12px; height: 12px;
+  border-color: rgba(0,255,60,0.5);
+  border-style: solid;
+}
+#perception .project-card::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+#perception .project-card::after  { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+/* cam icon watermark */
+.cam-watermark {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  font-size: 0.6rem; font-family: 'Share Tech Mono', monospace;
+  color: rgba(0,255,60,0.3);
+  letter-spacing: 0.1em;
+}
+.cam-dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: #ff3c3c;
+  animation: blink 1.5s infinite;
+  margin-right: 4px;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ===================== CONTROLS — BLUEPRINT ===================== */
+#controls {
+  background: #020e1a;
+}
+#controls::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(0,120,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,120,255,0.07) 1px, transparent 1px),
+    linear-gradient(rgba(0,120,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,120,255,0.03) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  pointer-events: none;
+}
+#controls .sec-label { color: #4db8ff; }
+#controls .sec-title {
+  font-family: 'Orbitron', monospace;
+  color: #e0f0ff;
+  font-weight: 400;
+}
+#controls .sec-title span { color: #4db8ff; }
+
+#controls .project-card {
+  background: rgba(0,80,160,0.12);
+  border: 1px solid rgba(0,120,255,0.25);
+  border-top: 2px solid rgba(0,180,255,0.5);
+}
+#controls .project-card:hover {
+  box-shadow: 0 0 40px rgba(0,120,255,0.12), inset 0 0 20px rgba(0,80,160,0.1);
+  border-color: rgba(0,180,255,0.5);
+}
+#controls .project-card h3 { font-family: 'Orbitron', monospace; font-size: 0.85rem; color: #a8d8ff; letter-spacing: 0.05em; }
+#controls .project-card-year { color: #4db8ff; }
+#controls .ptag { background: rgba(0,120,255,0.15); color: #4db8ff; border: 1px solid rgba(0,120,255,0.3); border-radius: 0; }
+
+/* blueprint annotation lines */
+.blueprint-ref {
+  position: absolute; top: 1rem; right: 1rem;
+  font-family: 'Courier Prime', monospace;
+  font-size: 0.55rem; color: rgba(0,160,255,0.35);
+  letter-spacing: 0.08em;
+}
+
+/* ===================== MECHATRONICS — CHROMECORE ===================== */
+#mechatronics {
+  background: #111114;
+}
+#mechatronics::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 50%, rgba(180,180,200,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+#mechatronics .sec-label { color: #c8c8d8; }
+#mechatronics .sec-title {
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #e8e8f0 0%, #a0a0b8 40%, #e0e0f0 70%, #707090 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+#mechatronics .project-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(150,150,170,0.04) 100%);
+  border: 1px solid rgba(200,200,220,0.15);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+#mechatronics .project-card:hover {
+  border-color: rgba(255,255,255,0.35);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.3);
+}
+#mechatronics .project-card h3 {
+  font-family: 'Syncopate', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #fff, #aaa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+#mechatronics .project-card-year { color: #aaa; }
+#mechatronics .ptag {
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(150,150,170,0.1));
+  color: #c8c8d8; border: 1px solid rgba(200,200,220,0.2);
+  border-radius: 0;
+}
+
+/* chrome shine element */
+.chrome-line {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  margin-bottom: 1.5rem;
+}
+
+/* ===================== REHAB — TECH SPEC ===================== */
+#rehabilitation {
+  background: #08080f;
+}
+#rehabilitation::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% 50%, rgba(0,220,180,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+#rehabilitation .sec-label { color: #00dca8; font-family: 'Share Tech Mono', monospace; }
+#rehabilitation .sec-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #e0fff8;
+}
+#rehabilitation .sec-title span { color: #00dca8; }
+
+#rehabilitation .project-card {
+  background: rgba(0,220,180,0.04);
+  border: 1px solid rgba(0,220,180,0.18);
+  border-left: 3px solid rgba(0,220,180,0.6);
+}
+#rehabilitation .project-card:hover {
+  border-left-color: #00dca8;
+  box-shadow: 0 0 30px rgba(0,220,180,0.06);
+}
+#rehabilitation .project-card h3 { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1.05rem; color: #a0ffe8; letter-spacing: 0.05em; }
+#rehabilitation .project-card-year { color: #00dca8; }
+#rehabilitation .ptag { background: rgba(0,220,180,0.1); color: #00dca8; border: 1px solid rgba(0,220,180,0.25); border-radius: 2px; }
+
+.spec-badge {
+  position: absolute; top: 1rem; right: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.15em;
+  color: rgba(0,220,180,0.4);
+  text-transform: uppercase;
+  border: 1px solid rgba(0,220,180,0.15);
+  padding: 0.2rem 0.5rem;
+}
+
+/* ===================== EMBODIED AI — CYBERPUNK ===================== */
+#embodiedai {
+  background: #060408;
+}
+#embodiedai::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,128,0.012) 2px, rgba(255,0,128,0.012) 4px),
+    radial-gradient(ellipse 70% 60% at 30% 40%, rgba(255,0,128,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 70%, rgba(0,200,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+#embodiedai .sec-label { color: #ff0080; font-family: 'VT323', monospace; font-size: 1rem; letter-spacing: 0.3em; }
+#embodiedai .sec-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 30px rgba(255,0,128,0.5), 0 0 60px rgba(0,200,255,0.2);
+}
+#embodiedai .sec-title span {
+  color: #ff0080;
+  text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080;
+}
+
+#embodiedai .project-card {
+  background: rgba(255,0,128,0.04);
+  border: 1px solid rgba(255,0,128,0.25);
+  position: relative;
+}
+#embodiedai .project-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ff0080, #00c8ff, transparent);
+}
+#embodiedai .project-card:hover {
+  border-color: rgba(255,0,128,0.5);
+  box-shadow: 0 0 30px rgba(255,0,128,0.1), 0 0 60px rgba(0,200,255,0.05);
+}
+#embodiedai .project-card h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: #ff80bf;
+  text-shadow: 0 0 10px rgba(255,0,128,0.4);
+}
+#embodiedai .project-card-year { color: #ff0080; font-family: 'VT323', monospace; font-size: 1rem; }
+#embodiedai .ptag {
+  background: rgba(255,0,128,0.1);
+  color: #ff80bf;
+  border: 1px solid rgba(255,0,128,0.3);
+  border-radius: 0;
+  text-shadow: 0 0 8px rgba(255,0,128,0.4);
+}
+
+/* glitch text */
+.glitch {
+  position: relative;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0;
+  width: 100%; overflow: hidden;
+}
+.glitch::before {
+  color: #00c8ff;
+  animation: glitch1 4s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  opacity: 0;
+}
+.glitch::after {
+  color: #ff0080;
+  animation: glitch2 4s 0.1s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+  opacity: 0;
+}
+@keyframes glitch1 { 0%,94%,100%{opacity:0;transform:none} 95%{opacity:1;transform:translateX(-3px)} 97%{opacity:1;transform:translateX(3px)} }
+@keyframes glitch2 { 0%,94%,100%{opacity:0;transform:none} 96%{opacity:1;transform:translateX(3px)} 98%{opacity:1;transform:translateX(-3px)} }
+
+/* ===================== SKILLS BAR ===================== */
+#skills {
+  background: #0a0a0d;
+  padding: 5rem 2rem;
+}
+#skills .section-inner { max-width: 1200px; margin: 0 auto; }
+#skills h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin-bottom: 3rem;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+.skill-group h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.04);
+  transition: all 0.2s;
+}
+.skill-pill:hover { border-color: rgba(255,255,255,0.4); color: #fff; background: rgba(255,255,255,0.08); }
+
+/* ===================== CONTACT / FOOTER ===================== */
+#contact {
+  background: #0d0b14;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+}
+#contact::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(160,100,220,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+#contact h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  color: #fff; letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+#contact p {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.9rem;
+  margin-bottom: 2.5rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.contact-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(200,150,255,0.8);
+  border: 1px solid rgba(200,150,255,0.3);
+  padding: 0.8rem 1.8rem;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+.contact-link:hover { background: rgba(200,150,255,0.1); color: #fff; border-color: rgba(200,150,255,0.7); }
+.footer-copy {
+  margin-top: 4rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.15em;
+}
+
+/* ===================== SCROLL ANIMATIONS ===================== */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 600px) {
+  nav { padding: 0.8rem 1rem; }
+  .nav-links a { padding: 0.3rem 0.5rem; font-size: 0.55rem; }
+  .about-strip { gap: 1.5rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home">AMT</a>
+  <ul class="nav-links">
+    <li><a href="#perception">Perception</a></li>
+    <li><a href="#controls">Controls</a></li>
+    <li><a href="#mechatronics">Mechatronics</a></li>
+    <li><a href="#rehabilitation">Rehab Tech</a></li>
+    <li><a href="#embodiedai">Embodied AI</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ==================== HOME ==================== -->
+<section id="home">
+  <div class="home-inner">
+    <p class="home-eyebrow">Mechatronics &amp; Robotics Engineer — NYU 2026</p>
+    <h1 class="home-name">
+      Ashwik<span>Tatineni</span>
+    </h1>
+    <p class="home-subtitle">
+      Building robots that perceive, reason, and act — from wearable rehab devices to autonomous navigation and embodied AI.
+    </p>
+    <div class="home-tags">
+      <span class="home-tag">Robot Perception</span>
+      <span class="home-tag">Controls</span>
+      <span class="home-tag">Mechatronics</span>
+      <span class="home-tag">Rehabilitation Robotics</span>
+      <span class="home-tag">Embodied AI</span>
+    </div>
+    <div class="home-cta">
+      <a href="#perception" class="btn btn-primary">Explore Work</a>
+      <a href="mailto:at6287@nyu.edu" class="btn btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+  <div class="about-strip">
+    <div class="about-stat">
+      <span class="about-stat-num">7+</span>
+      <span class="about-stat-label">Robotics Projects</span>
+    </div>
+    <div class="about-stat">
+      <span class="about-stat-num">3</span>
+      <span class="about-stat-label">Research Roles</span>
+    </div>
+    <div class="about-stat">
+      <span class="about-stat-num">3.5</span>
+      <span class="about-stat-label">GPA / 4.0</span>
+    </div>
+    <div class="about-stat">
+      <span class="about-stat-num">5+</span>
+      <span class="about-stat-label">Tools &amp; Frameworks</span>
+    </div>
+    <div class="about-stat">
+      <span class="about-stat-num">NYU</span>
+      <span class="about-stat-label">MERIIT Lab Researcher</span>
+    </div>
+  </div>
+  <p class="home-scroll-hint">↓ scroll to explore</p>
+</section>
+
+<!-- ==================== PERCEPTION — SURVEILLANCE ==================== -->
+<section id="perception">
+  <div class="scanline"></div>
+  <div class="section-inner">
+    <div class="sec-header reveal">
+      <span class="sec-label">// SYS_MOD: VISION &amp; LOCALIZATION — FEED ACTIVE</span>
+      <h2 class="sec-title" style="font-family:'Share Tech Mono',monospace;">
+        <span>PERCEPTION</span><br>SYSTEMS
+      </h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal reveal-delay-1">
+        <div class="cam-watermark"><span class="cam-dot"></span>REC</div>
+        <p class="project-card-year">OCT — DEC 2025</p>
+        <h3>Autonomous Visual Navigation Robot</h3>
+        <p>Mapless navigation using a pre-trained ResNet50 backbone to extract 2048-dimensional global features, constructing a sparse weighted topological graph from 3,751 exploration images. A* search + Ball Tree for real-time visual localization with stuck-detection replanning.</p>
+        <div class="project-tags">
+          <span class="ptag">ResNet50</span>
+          <span class="ptag">A* Search</span>
+          <span class="ptag">Ball Tree</span>
+          <span class="ptag">Topological Graph</span>
+          <span class="ptag">Python</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <div class="cam-watermark"><span class="cam-dot"></span>REC</div>
+        <p class="project-card-year">NOV 2023 — APR 2024</p>
+        <h3>2-Axis Object Tracking via Deep Learning</h3>
+        <p>Real-time 2-axis tracking system detecting up to 80 object classes using YOLOv8 + DeepSORT. Images acquired via MVS SDK, with user-driven mouse input to dynamically modulate motor control keeping the target centered.</p>
+        <div class="project-tags">
+          <span class="ptag">YOLOv8</span>
+          <span class="ptag">DeepSORT</span>
+          <span class="ptag">MVS SDK</span>
+          <span class="ptag">Motor Control</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <div class="cam-watermark"><span class="cam-dot"></span>REC</div>
+        <p class="project-card-year">FEB — MAY 2025</p>
+        <h3>Movement Tracking — Computer Vision Pipeline</h3>
+        <p>Led the CV pipeline for a dual-system gait rehabilitation platform. Blue-object-based target tracking with pixel-to-world mapping and depth estimation using the pinhole camera model for real-time manipulator control.</p>
+        <div class="project-tags">
+          <span class="ptag">Pinhole Model</span>
+          <span class="ptag">Depth Estimation</span>
+          <span class="ptag">OpenCV</span>
+          <span class="ptag">Real-time</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTROLS — BLUEPRINT ==================== -->
+<section id="controls">
+  <div class="section-inner">
+    <div class="sec-header reveal">
+      <span class="sec-label">REF: CTRL-SYS // DESIGN AUTHORITY</span>
+      <h2 class="sec-title">
+        CONTROL<br><span>SYSTEMS</span>
+      </h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal reveal-delay-1">
+        <span class="blueprint-ref">DOC-2025-VFM-001</span>
+        <p class="project-card-year">NOV — DEC 2025</p>
+        <h3>Virtual Force Measurement &amp; Adaptive Control</h3>
+        <p>Closed-loop adaptive controller modulating manipulator velocity and grasp strategy from real-time WrenchStamped force feedback in Gazebo. Dynamic thresholds prevent safety violations; data pipeline evaluates grasp stability via peak force, σ, and contact duration.</p>
+        <div class="project-tags">
+          <span class="ptag">ROS</span>
+          <span class="ptag">Gazebo</span>
+          <span class="ptag">MATLAB</span>
+          <span class="ptag">Force/Torque</span>
+          <span class="ptag">Adaptive Control</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <span class="blueprint-ref">DOC-2025-QL-002</span>
+        <p class="project-card-year">NOV — DEC 2025</p>
+        <h3>Quadruped Locomotion via Reinforcement Learning</h3>
+        <p>Locomotion policy for Unitree Go2 in Isaac Lab. Explicit PD torque controller (Kp=20, Kd=0.5) + Raibert heuristics + gait clock logic for consistent foot placement. Domain randomization with stochastic actuator friction reduces policy jitter.</p>
+        <div class="project-tags">
+          <span class="ptag">Isaac Lab</span>
+          <span class="ptag">RL</span>
+          <span class="ptag">PD Control</span>
+          <span class="ptag">Domain Randomization</span>
+          <span class="ptag">Unitree Go2</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <span class="blueprint-ref">DOC-2023-NAV-003</span>
+        <p class="project-card-year">AUG — OCT 2023</p>
+        <h3>Autonomous Indoor Navigation — Holonomic Robot</h3>
+        <p>Holonomic autonomous robot reaching positions via PRM path points from stereo camera data. Derived and validated kinematic model enabling accurate path planning via Dead-Reckoning.</p>
+        <div class="project-tags">
+          <span class="ptag">PRM</span>
+          <span name="ptag">Dead Reckoning</span>
+          <span class="ptag">Kinematics</span>
+          <span class="ptag">Stereo Vision</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MECHATRONICS — CHROMECORE ==================== -->
+<section id="mechatronics">
+  <div class="section-inner">
+    <div class="sec-header reveal">
+      <div class="chrome-line"></div>
+      <span class="sec-label">HARDWARE / ELECTRICAL / FABRICATION</span>
+      <h2 class="sec-title">MECHA&shy;TRONICS</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal reveal-delay-1">
+        <p class="project-card-year">JAN 2025 — PRESENT</p>
+        <h3>Multi-Modal Sock for CIPN Rehabilitation</h3>
+        <p>Fabricated a wearable multi-modal sock integrating custom capacitive pressure sensor arrays for gait analysis, designed and manufactured at the MERIIT Lab, NYU.</p>
+        <div class="project-tags">
+          <span class="ptag">Wearable</span>
+          <span class="ptag">Capacitive Sensing</span>
+          <span class="ptag">Fabrication</span>
+          <span class="ptag">Gait Analysis</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <p class="project-card-year">JUL — AUG 2023</p>
+        <h3>Vertical Stacking Mobile Robot</h3>
+        <p>Designed and assembled a differential wheeled robot with a pneumatic piston base and conveyor mechanism for vertical stacking. Built a PID-controlled line-follower for precise path-following.</p>
+        <div class="project-tags">
+          <span class="ptag">Pneumatics</span>
+          <span class="ptag">PID</span>
+          <span class="ptag">Assembly</span>
+          <span class="ptag">Differential Drive</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <p class="project-card-year">APR 2025</p>
+        <h3>LeRobot S-100 Arm Assembly</h3>
+        <p>Assembled the LeRobot S-100 arm from hardware, recorded 100 episodes per task, and trained sequential task policies using ACT. Explored VLA policies including π₀ and NVIDIA Groot N1.5.</p>
+        <div class="project-tags">
+          <span class="ptag">LeRobot</span>
+          <span class="ptag">Assembly</span>
+          <span class="ptag">ACT Policy</span>
+          <span class="ptag">Data Collection</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== REHABILITATION — TECH SPEC ==================== -->
+<section id="rehabilitation">
+  <div class="section-inner">
+    <div class="sec-header reveal">
+      <span class="sec-label">SPEC_DOMAIN: WEARABLE / EXOSKELETON / HAPTIC</span>
+      <h2 class="sec-title">
+        Robot <span>Rehabilitation</span><br>&amp; Wearable Tech
+      </h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal reveal-delay-1">
+        <span class="spec-badge">MERIIT LAB</span>
+        <p class="project-card-year">JAN 2025 — PRESENT</p>
+        <h3>3-Axis Wrist Exoskeleton — Neuromuscular Rehab</h3>
+        <p>Developed torque control algorithm for a 3-axis exoskeleton targeting neuromuscular wrist rehabilitation. Integrated EPOS4 module with axis-specific safety limits. Calibrated and programmed data acquisition for a haptic glove's sensor array.</p>
+        <div class="project-tags">
+          <span class="ptag">Exoskeleton</span>
+          <span class="ptag">EPOS4</span>
+          <span class="ptag">Torque Control</span>
+          <span class="ptag">Haptic Glove</span>
+          <span class="ptag">Rehab</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <span class="spec-badge">MERIIT LAB</span>
+        <p class="project-card-year">JAN 2025 — PRESENT</p>
+        <h3>Capacitive Pressure Sensor Array — Gait Analysis</h3>
+        <p>Designed and developed a custom capacitive pressure sensor array embedded in a wearable sock, targeting CIPN rehabilitation. Focused on sensor fabrication, signal conditioning, and real-time gait pattern capture.</p>
+        <div class="project-tags">
+          <span class="ptag">Capacitive Sensing</span>
+          <span class="ptag">Signal Conditioning</span>
+          <span class="ptag">Wearable</span>
+          <span class="ptag">CIPN</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <span class="spec-badge">PARALLEL ROBOT</span>
+        <p class="project-card-year">FEB — MAY 2025</p>
+        <h3>Gait Rehabilitation Parallel Manipulator Platform</h3>
+        <p>Full dual-system platform: 3-RPS parallel manipulator on a gantry with real-time CV-driven gait motion control. Designed a custom IMU-embedded blue target box and integrated pixel-to-world coordinate mapping for closed-loop control.</p>
+        <div class="project-tags">
+          <span class="ptag">3-RPS Manipulator</span>
+          <span class="ptag">IMU</span>
+          <span class="ptag">Gantry</span>
+          <span class="ptag">Gait Rehab</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EMBODIED AI — CYBERPUNK ==================== -->
+<section id="embodiedai">
+  <div class="section-inner">
+    <div class="sec-header reveal">
+      <span class="sec-label">// NEURAL_EXEC — POLICY ONLINE</span>
+      <h2 class="sec-title glitch" data-text="EMBODIED AI">EMBODIED <span>AI</span></h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal reveal-delay-1">
+        <p class="project-card-year">11.2025</p>
+        <h3>Quadruped RL Locomotion — Unitree Go2</h3>
+        <p>End-to-end RL locomotion policy trained in Isaac Lab. Raibert heuristics and gait clock enforce physically consistent gait. Stochastic domain randomization during training yields robust sim-to-real transfer.</p>
+        <div class="project-tags">
+          <span class="ptag">Isaac Lab</span>
+          <span class="ptag">PPO</span>
+          <span class="ptag">Sim-to-Real</span>
+          <span class="ptag">Policy</span>
+          <span class="ptag">Unitree Go2</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <p class="project-card-year">04.2025</p>
+        <h3>LeRobot Hackathon — Sandwich Making Bot</h3>
+        <p>ACT (Action Chunking Transformer) policy trained on 100 self-recorded imitation learning episodes per task. Explored emerging VLA paradigms: Physical Intelligence π₀ and NVIDIA Groot N1.5.</p>
+        <div class="project-tags">
+          <span class="ptag">ACT</span>
+          <span class="ptag">Imitation Learning</span>
+          <span class="ptag">π₀</span>
+          <span class="ptag">Groot N1.5</span>
+          <span class="ptag">LeRobot</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <p class="project-card-year">10.2025</p>
+        <h3>Topological Graph Navigation with Deep Features</h3>
+        <p>ResNet50-powered visual place recognition driving A* graph search for autonomous navigation — a foundational building block for scene-aware, learning-based robot autonomy without HD maps.</p>
+        <div class="project-tags">
+          <span class="ptag">Deep Learning</span>
+          <span class="ptag">Visual Place Recognition</span>
+          <span class="ptag">Graph Navigation</span>
+          <span class="ptag">ResNet50</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SKILLS ==================== -->
+<section id="skills">
+  <div class="section-inner">
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-group reveal">
+        <h4>Programming</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">C</span>
+          <span class="skill-pill">Embedded C</span>
+          <span class="skill-pill">MATLAB</span>
+          <span class="skill-pill">Assembly</span>
+          <span class="skill-pill">PLC</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-1">
+        <h4>Robotics &amp; Simulation</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">ROS / ROS2</span>
+          <span class="skill-pill">Gazebo</span>
+          <span class="skill-pill">Isaac Sim</span>
+          <span class="skill-pill">Isaac Lab</span>
+          <span class="skill-pill">Simulink</span>
+          <span class="skill-pill">LabVIEW</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-2">
+        <h4>AI / ML</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">YOLOv8</span>
+          <span class="skill-pill">ResNet</span>
+          <span class="skill-pill">DeepSORT</span>
+          <span class="skill-pill">ACT Policy</span>
+          <span class="skill-pill">PPO / RL</span>
+        </div>
+      </div>
+      <div class="skill-group reveal reveal-delay-3">
+        <h4>Fabrication &amp; Design</h4>
+        <div class="skill-pills">
+          <span class="skill-pill">SolidWorks</span>
+          <span class="skill-pill">ANSYS</span>
+          <span class="skill-pill">3D Printing</span>
+          <span class="skill-pill">CNC Milling</span>
+          <span class="skill-pill">FluidSIM</span>
+          <span class="skill-pill">PCB Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact">
+  <div style="position:relative;z-index:1;">
+    <h2>Let's Build<br>Something.</h2>
+    <p>at6287@nyu.edu &nbsp;|&nbsp; Brooklyn, NY &nbsp;|&nbsp; Open to opportunities</p>
+    <div class="contact-links">
+      <a href="mailto:at6287@nyu.edu" class="contact-link">Email Me</a>
+      <a href="https://linkedin.com/in/ashwik-manoj-tatineni" target="_blank" class="contact-link">LinkedIn</a>
+    </div>
+    <p class="footer-copy">© 2025 ASHWIK MANOJ TATINENI — ROBOTICS ENGINEER</p>
+  </div>
+</section>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
+
+// Active nav link highlight
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const navObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.style.color = '#fff';
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => navObs.observe(s));
+</script>
+</body>
+</html>
