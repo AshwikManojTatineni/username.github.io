@@ -12,254 +12,110 @@ html{scroll-behavior:smooth;}
 body{background:#0a0a0a;color:#eee;font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
 
 /* ═══════════════════════════════════
-   CURSOR SYSTEM
+   CURSOR & LENS SYSTEM
 ═══════════════════════════════════ */
-#cur-dot{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:left,top;transition:opacity .2s;}
-#cur-ring{position:fixed;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.45);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s,border-radius .3s;will-change:left,top;}
-#lens{position:fixed;width:150px;height:150px;border-radius:50%;pointer-events:none;z-index:9996;transform:translate(-50%,-50%);backdrop-filter:brightness(1.16) saturate(1.4);-webkit-backdrop-filter:brightness(1.16) saturate(1.4);border:1px solid rgba(255,255,255,0.07);background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.04) 0%,transparent 60%);will-change:left,top;transition:width .4s,height .4s,border-color .4s;}
-
-/* SVG cursor shapes injected by JS */
-.cursor-home    { width:16px;height:16px; }
-.cursor-percep  { width:20px;height:20px; }
-.cursor-ctrl    { width:18px;height:18px; }
-.cursor-mech    { width:16px;height:16px; }
-.cursor-rehab   { width:18px;height:18px; }
-.cursor-ai      { width:16px;height:16px; }
-
-/* ═══════════════════════════════════
-   TRANSITION
-═══════════════════════════════════ */
-#trans-overlay{position:fixed;inset:0;z-index:9990;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;}
-#trans-canvas{position:absolute;inset:0;width:100%;height:100%;}
-#trans-label{position:relative;z-index:1;font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,6rem);letter-spacing:.25em;color:#fff;opacity:0;text-align:center;}
-
-/* ═══════════════════════════════════
-   NAV
-═══════════════════════════════════ */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;background:rgba(5,5,5,0.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06);}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;color:#fff;text-decoration:none;}
-.nav-links{display:flex;gap:.15rem;list-style:none;flex-wrap:wrap;}
-.nav-links a{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;padding:.35rem .7rem;border:1px solid transparent;border-radius:2px;transition:all .2s;color:#888;}
-.nav-links a:hover,.nav-links a.active{color:#fff;border-color:rgba(255,255,255,.26);}
-
-/* ═══════════════════════════════════
-   SKILL FILTER BAR (sticky below nav)
-═══════════════════════════════════ */
-#skill-bar{
-  position:fixed;top:50px;left:0;right:0;z-index:999;
-  display:flex;align-items:center;gap:.5rem;padding:.55rem 2rem;
-  background:rgba(5,5,5,0.88);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.04);
-  overflow-x:auto;scrollbar-width:none;
+#cur-dot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10001; 
+    transform: translate(-50%, -50%);
+    will-change: left, top;
 }
-#skill-bar::-webkit-scrollbar{display:none;}
-.skill-bar-label{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.25);letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;margin-right:.3rem;}
-.sf-btn{
-  font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;
-  padding:.3rem .8rem;border-radius:100px;border:1px solid rgba(255,255,255,.12);
-  color:rgba(255,255,255,.5);background:transparent;cursor:none;white-space:nowrap;
-  transition:all .2s;
+#cur-ring {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width .3s, height .3s, border-color .3s, border-radius .3s;
+    will-change: left, top;
 }
-.sf-btn:hover{color:#fff;border-color:rgba(255,255,255,.4);}
-.sf-btn.active{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5);}
-.sf-btn[data-domain="perception"].active{color:#00ff3c;border-color:#00ff3c;background:rgba(0,255,60,.08);}
-.sf-btn[data-domain="controls"].active{color:#4db8ff;border-color:#4db8ff;background:rgba(77,184,255,.08);}
-.sf-btn[data-domain="mechatronics"].active{color:#d0d0e8;border-color:#d0d0e8;background:rgba(208,208,232,.08);}
-.sf-btn[data-domain="rehabilitation"].active{color:#00dca8;border-color:#00dca8;background:rgba(0,220,168,.08);}
-.sf-btn[data-domain="embodiedai"].active{color:#ff0080;border-color:#ff0080;background:rgba(255,0,128,.08);}
-.sf-clear{font-family:'Space Mono',monospace;font-size:.48rem;color:rgba(255,255,255,.25);background:none;border:none;cursor:none;letter-spacing:.1em;text-transform:uppercase;margin-left:.5rem;transition:color .2s;}
-.sf-clear:hover{color:#fff;}
-
-/* ═══════════════════════════════════
-   SECTIONS BASE
-═══════════════════════════════════ */
-section{min-height:100vh;position:relative;overflow:hidden;}
-.bg-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;}
-.section-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:7.5rem 2rem 5rem;}
-.sec-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.27em;text-transform:uppercase;display:block;margin-bottom:.55rem;}
-.sec-title{font-size:clamp(1.9rem,4.5vw,3.2rem);line-height:1;margin-bottom:2.5rem;}
-
-/* ═══════════════════════════════════
-   PROJECT CARDS
-═══════════════════════════════════ */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.3rem;}
-.project-card{border-radius:4px;padding:1.6rem;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,opacity .4s;cursor:none;}
-.project-card:hover{transform:translateY(-5px) scale(1.012);}
-.project-card.filtered-out{opacity:0.12;transform:scale(0.97);}
-.project-card-year{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.17em;text-transform:uppercase;opacity:.5;margin-bottom:.65rem;}
-.project-card h3{font-size:.94rem;font-weight:600;margin-bottom:.7rem;line-height:1.3;}
-.project-card p{font-size:.77rem;line-height:1.65;opacity:.67;}
-.project-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:1rem;}
-.ptag{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.07em;padding:.2rem .5rem;border-radius:2px;text-transform:uppercase;cursor:none;transition:all .15s;}
-.card-open-hint{position:absolute;bottom:.9rem;right:1rem;font-family:'Space Mono',monospace;font-size:.48rem;color:rgba(255,255,255,.2);letter-spacing:.1em;text-transform:uppercase;transition:opacity .2s;}
-.project-card:hover .card-open-hint{opacity:.6;}
-
-/* ═══════════════════════════════════
-   PROJECT MODAL
-═══════════════════════════════════ */
-#modal-overlay{
-  position:fixed;inset:0;z-index:8000;
-  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .3s;
-  padding:1.5rem;
+#lens {
+    position: fixed;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    pointer-events: none; /* Allows clicking through */
+    z-index: 9996;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Magnification Effect */
+    backdrop-filter: brightness(1.1) scale(1.08);
+    -webkit-backdrop-filter: brightness(1.1) scale(1.08);
+    background: radial-gradient(circle at center, transparent 0%, rgba(255,255,255,0.03) 100%);
+    
+    transition: width 0.4s, height 0.4s, backdrop-filter 0.3s;
+    will-change: left, top;
 }
-#modal-overlay.open{opacity:1;pointer-events:all;}
-#modal-box{
-  position:relative;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;
-  border-radius:6px;padding:2.5rem;
-  background:#0d0d12;border:1px solid rgba(255,255,255,.1);
-  transform:translateY(20px);transition:transform .3s;
-  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent;
+
+/* Glitch state for Lens */
+#lens.glitch-mode {
+    backdrop-filter: hue-rotate(90deg) brightness(1.2) scale(1.1) contrast(1.2);
+    border-color: rgba(255, 0, 128, 0.4);
+    background: repeating-linear-gradient(0deg, rgba(255,0,128,0.05) 0px, transparent 2px);
 }
-#modal-overlay.open #modal-box{transform:translateY(0);}
-#modal-close{
-  position:sticky;float:right;top:0;
-  font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;
-  color:rgba(255,255,255,.4);background:none;border:1px solid rgba(255,255,255,.15);
-  padding:.3rem .7rem;border-radius:2px;cursor:none;transition:all .2s;
-  text-transform:uppercase;
+
+/* ═══════════════════════════════════
+   UI COMPONENTS
+═══════════════════════════════════ */
+nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .85rem 2rem; background: rgba(5,5,5,0.92);
+    backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-#modal-close:hover{color:#fff;border-color:rgba(255,255,255,.5);}
-#modal-section-tag{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:.6rem;display:block;clear:both;}
-#modal-title{font-size:1.6rem;font-weight:700;margin-bottom:.5rem;line-height:1.2;}
-#modal-year{font-family:'Space Mono',monospace;font-size:.6rem;opacity:.4;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.5rem;}
-#modal-body{font-size:.85rem;line-height:1.75;opacity:.75;margin-bottom:1.5rem;}
-#modal-bullets{list-style:none;margin-bottom:1.5rem;}
-#modal-bullets li{font-size:.8rem;line-height:1.65;opacity:.72;padding:.4rem 0;padding-left:1rem;position:relative;border-bottom:1px solid rgba(255,255,255,.04);}
-#modal-bullets li::before{content:'→';position:absolute;left:0;opacity:.4;}
-#modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
-.modal-domain-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;}
-.domain-chip{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .6rem;border-radius:100px;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);}
+.nav-logo { font-family: 'Bebas Neue'; font-size: 1.5rem; color: #fff; text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 10px; }
+.nav-links a { 
+    font-family: 'Space Mono'; font-size: .6rem; text-decoration: none; color: #888; 
+    padding: 5px 10px; border: 1px solid transparent; transition: 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; border-color: rgba(255,255,255,0.2); }
+
+#skill-bar {
+    position: fixed; top: 50px; left: 0; right: 0; z-index: 999;
+    padding: 10px 2rem; background: rgba(5,5,5,0.8); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 10px;
+}
+.sf-btn {
+    font-family: 'Space Mono'; font-size: 10px; padding: 5px 15px;
+    border-radius: 20px; border: 1px solid #444; color: #aaa; background: none; transition: 0.2s;
+}
+.sf-btn.active { background: #fff; color: #000; }
 
 /* ═══════════════════════════════════
-   HOME
+   SECTIONS
 ═══════════════════════════════════ */
-#home{background:#0d0b14;display:flex;flex-direction:column;justify-content:center;}
-.home-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;flex-direction:column;justify-content:center;min-height:100vh;}
-.home-eyebrow{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.27em;color:rgba(200,160,255,.7);text-transform:uppercase;margin-bottom:1.3rem;animation:fadeUp .8s ease both;}
-.home-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.8rem,10.5vw,9.5rem);line-height:.9;letter-spacing:.04em;color:#fff;animation:fadeUp .8s .1s ease both;}
-.home-name span{display:block;background:linear-gradient(135deg,#c97dff 0%,#7dd4fc 40%,#f0abfc 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.home-subtitle{font-size:clamp(.92rem,2.2vw,1.3rem);color:rgba(220,200,255,.55);font-weight:300;margin-top:1.3rem;max-width:520px;line-height:1.65;animation:fadeUp .8s .2s ease both;}
-.home-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2.2rem;animation:fadeUp .8s .3s ease both;}
-.home-tag{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.09em;border:1px solid rgba(200,150,255,.3);color:rgba(200,150,255,.78);padding:.35rem .9rem;border-radius:100px;text-transform:uppercase;cursor:none;}
-.home-cta{display:flex;gap:1rem;margin-top:2.6rem;animation:fadeUp .8s .4s ease both;flex-wrap:wrap;}
-.btn{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;text-decoration:none;padding:.75rem 1.8rem;border-radius:3px;transition:all .2s;display:inline-block;cursor:none;}
-.btn-primary{background:linear-gradient(135deg,#a855f7,#38bdf8);color:#fff;border:none;}
-.btn-primary:hover{opacity:.82;transform:translateY(-2px);}
-.btn-secondary{background:transparent;color:rgba(200,150,255,.78);border:1px solid rgba(200,150,255,.36);}
-.btn-secondary:hover{border-color:rgba(200,150,255,.9);color:#fff;}
-.about-strip{position:absolute;bottom:0;left:0;right:0;z-index:2;background:rgba(255,255,255,.023);border-top:1px solid rgba(255,255,255,.055);padding:1.3rem 2rem;display:flex;gap:2.4rem;overflow-x:auto;}
-.about-stat-num{font-family:'Bebas Neue',sans-serif;font-size:1.85rem;color:#c97dff;}
-.about-stat-label{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;display:block;}
-.home-scroll{position:absolute;bottom:5.2rem;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.27em;color:rgba(255,255,255,.17);text-transform:uppercase;animation:pulse 2.5s infinite;z-index:2;}
-@keyframes pulse{0%,100%{opacity:.17}50%{opacity:.5}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+section { min-height: 100vh; padding: 120px 2rem; position: relative; }
+.sec-title { font-size: 4rem; font-family: 'Bebas Neue'; margin-bottom: 2rem; }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.project-card { 
+    background: #111; padding: 2rem; border: 1px solid #222; border-radius: 5px; 
+    transition: 0.3s; position: relative;
+}
+.project-card:hover { border-color: #555; transform: translateY(-5px); }
+.ptag { font-family: 'Space Mono'; font-size: 9px; padding: 2px 6px; background: #222; margin-right: 5px; }
 
-/* ═══════════════════════════════════
-   ABOUT SECTION
-═══════════════════════════════════ */
-#about{background:#0b0a10;min-height:auto;}
-#about .section-inner{padding:5rem 2rem;}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
-@media(max-width:700px){.about-grid{grid-template-columns:1fr;gap:2.5rem;}}
-.about-left h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:.06em;margin-bottom:1.2rem;line-height:1;}
-.about-left p{font-size:.87rem;line-height:1.78;color:rgba(255,255,255,.6);margin-bottom:1rem;}
-.about-right{display:flex;flex-direction:column;gap:1.5rem;}
-.about-item{border-left:2px solid rgba(255,255,255,.1);padding-left:1.2rem;}
-.about-item-title{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.3rem;}
-.about-item-val{font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.5;}
+/* Modal */
+#modal-overlay {
+    position: fixed; inset: 0; z-index: 10005; background: rgba(0,0,0,0.9);
+    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s;
+}
+#modal-overlay.open { opacity: 1; pointer-events: all; }
+#modal-box { background: #0d0d12; width: 90%; max-width: 600px; padding: 3rem; border: 1px solid #333; }
 
-/* ═══════════════════════════════════
-   SECTION THEMES
-═══════════════════════════════════ */
-/* PERCEPTION */
-#perception{background:#040605;}
-#perception .sec-label{color:#00ff3c;}
-#perception .sec-title{font-family:'Share Tech Mono',monospace;color:#e8ffe8;}
-#perception .sec-title span{color:#00ff3c;}
-#perception .project-card{background:rgba(0,255,60,.036);border:1px solid rgba(0,255,60,.18);}
-#perception .project-card:hover{border-color:rgba(0,255,60,.48);box-shadow:0 0 32px rgba(0,255,60,.08);}
-#perception .project-card h3{font-family:'Share Tech Mono',monospace;color:#a8ffc0;}
-#perception .project-card-year{color:#00ff3c;}
-#perception .ptag{background:rgba(0,255,60,.08);color:#00ff3c;border:1px solid rgba(0,255,60,.2);}
-#perception .project-card::before,#perception .project-card::after{content:'';position:absolute;width:10px;height:10px;border-color:rgba(0,255,60,.4);border-style:solid;}
-#perception .project-card::before{top:7px;left:7px;border-width:1px 0 0 1px;}
-#perception .project-card::after{bottom:7px;right:7px;border-width:0 1px 1px 0;}
-.cam-badge{position:absolute;top:1rem;right:1rem;font-family:'Share Tech Mono',monospace;font-size:.5rem;color:rgba(0,255,60,.38);letter-spacing:.08em;}
-.cam-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#ff3c3c;animation:blink 1.6s infinite;margin-right:3px;vertical-align:middle;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
-/* CONTROLS */
-#controls{background:#020c18;}
-#controls .sec-label{color:#4db8ff;}
-#controls .sec-title{font-family:'Orbitron',monospace;color:#e0f0ff;font-weight:400;}
-#controls .sec-title span{color:#4db8ff;}
-#controls .project-card{background:rgba(0,80,160,.09);border:1px solid rgba(0,120,255,.2);border-top:2px solid rgba(0,180,255,.42);}
-#controls .project-card:hover{box-shadow:0 0 35px rgba(0,120,255,.12);border-color:rgba(0,180,255,.45);}
-#controls .project-card h3{font-family:'Orbitron',monospace;font-size:.8rem;color:#a8d8ff;letter-spacing:.04em;}
-#controls .project-card-year{color:#4db8ff;}
-#controls .ptag{background:rgba(0,120,255,.12);color:#4db8ff;border:1px solid rgba(0,120,255,.26);border-radius:0;}
-.bp-ref{position:absolute;top:.85rem;right:.85rem;font-family:'Space Mono',monospace;font-size:.5rem;color:rgba(0,160,255,.28);letter-spacing:.06em;}
-/* MECHATRONICS */
-#mechatronics{background:#0e0e11;}
-#mechatronics .sec-label{color:#c0c0d0;}
-#mechatronics .sec-title{font-family:'Syncopate',sans-serif;font-weight:700;letter-spacing:.07em;background:linear-gradient(135deg,#e8e8f0,#a0a0b8 45%,#e0e0f0 70%,#686888);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-#mechatronics .project-card{background:linear-gradient(135deg,rgba(255,255,255,.046),rgba(140,140,165,.033));border:1px solid rgba(200,200,220,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);}
-#mechatronics .project-card:hover{border-color:rgba(255,255,255,.3);box-shadow:0 8px 36px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.16);}
-#mechatronics .project-card h3{font-family:'Syncopate',sans-serif;font-size:.7rem;letter-spacing:.09em;background:linear-gradient(135deg,#fff,#aaa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-#mechatronics .project-card-year{color:#aaa;}
-#mechatronics .ptag{background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(140,140,165,.09));color:#c0c0d0;border:1px solid rgba(200,200,220,.17);border-radius:0;}
-.chrome-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);margin-bottom:1.3rem;}
-/* REHABILITATION */
-#rehabilitation{background:#05080c;}
-#rehabilitation .sec-label{color:#00dca8;font-family:'Share Tech Mono',monospace;}
-#rehabilitation .sec-title{font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:.04em;color:#dffff8;}
-#rehabilitation .sec-title span{color:#00dca8;}
-#rehabilitation .project-card{background:rgba(0,220,180,.033);border:1px solid rgba(0,220,180,.15);border-left:3px solid rgba(0,220,180,.52);}
-#rehabilitation .project-card:hover{border-left-color:#00dca8;box-shadow:0 0 26px rgba(0,220,180,.06);}
-#rehabilitation .project-card h3{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1rem;color:#9fffe7;letter-spacing:.04em;}
-#rehabilitation .project-card-year{color:#00dca8;}
-#rehabilitation .ptag{background:rgba(0,220,180,.08);color:#00dca8;border:1px solid rgba(0,220,180,.2);border-radius:2px;}
-.spec-badge{position:absolute;top:.85rem;right:.85rem;font-family:'Share Tech Mono',monospace;font-size:.46rem;letter-spacing:.12em;color:rgba(0,220,180,.36);text-transform:uppercase;border:1px solid rgba(0,220,180,.12);padding:.17rem .42rem;}
-/* EMBODIED AI */
-#embodiedai{background:#060408;}
-#embodiedai .sec-label{color:#ff0080;font-family:'VT323',monospace;font-size:.95rem;letter-spacing:.27em;}
-#embodiedai .sec-title{font-family:'Orbitron',monospace;font-weight:900;color:#fff;text-shadow:0 0 26px rgba(255,0,128,.42),0 0 52px rgba(0,200,255,.16);}
-#embodiedai .sec-title span{color:#ff0080;text-shadow:0 0 16px #ff0080,0 0 36px #ff0080;}
-#embodiedai .project-card{background:rgba(255,0,128,.033);border:1px solid rgba(255,0,128,.2);}
-#embodiedai .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ff0080,#00c8ff,transparent);}
-#embodiedai .project-card:hover{border-color:rgba(255,0,128,.46);box-shadow:0 0 26px rgba(255,0,128,.09);}
-#embodiedai .project-card h3{font-family:'Orbitron',monospace;font-size:.76rem;letter-spacing:.05em;color:#ff80bf;text-shadow:0 0 8px rgba(255,0,128,.32);}
-#embodiedai .project-card-year{color:#ff0080;font-family:'VT323',monospace;font-size:.96rem;}
-#embodiedai .ptag{background:rgba(255,0,128,.08);color:#ff80bf;border:1px solid rgba(255,0,128,.26);border-radius:0;}
-.glitch{position:relative;}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;overflow:hidden;}
-.glitch::before{color:#00c8ff;animation:g1 5s infinite;clip-path:polygon(0 0,100% 0,100% 35%,0 35%);opacity:0;}
-.glitch::after{color:#ff0080;animation:g2 5s .12s infinite;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);opacity:0;}
-@keyframes g1{0%,92%,100%{opacity:0;transform:none}93%{opacity:1;transform:translateX(-3px)}95%{opacity:1;transform:translateX(3px)}}
-@keyframes g2{0%,92%,100%{opacity:0;transform:none}94%{opacity:1;transform:translateX(3px)}96%{opacity:1;transform:translateX(-3px)}}
+/* Section Specific Colors */
+#perception { background: #040605; color: #00ff3c; }
+#embodiedai { background: #060408; color: #ff0080; }
 
-/* ═══════════════════════════════════
-   CONTACT SECTION
-═══════════════════════════════════ */
-#contact{background:#0d0b14;border-top:1px solid rgba(255,255,255,.055);min-height:auto;overflow:hidden;}
-#contact .section-inner{padding:5rem 2rem 4rem;text-align:center;position:relative;z-index:2;}
-#contact::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 50% 110%,rgba(160,100,220,.1),transparent 70%);pointer-events:none;}
-#contact h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,5rem);letter-spacing:.07em;margin-bottom:.8rem;}
-#contact .contact-sub{color:rgba(255,255,255,.36);font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.09em;margin-bottom:2.2rem;}
-.contact-links{display:flex;justify-content:center;gap:1.3rem;flex-wrap:wrap;}
-.contact-link{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:rgba(200,150,255,.78);border:1px solid rgba(200,150,255,.26);padding:.72rem 1.65rem;border-radius:3px;transition:all .2s;cursor:none;}
-.contact-link:hover{background:rgba(200,150,255,.09);color:#fff;border-color:rgba(200,150,255,.62);}
-.footer-copy{margin-top:3.5rem;font-family:'Space Mono',monospace;font-size:.5rem;color:rgba(255,255,255,.12);letter-spacing:.13em;}
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ═══════════════════════════════════
-   REVEAL
-═══════════════════════════════════ */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.rd1{transition-delay:.1s;}.rd2{transition-delay:.2s;}.rd3{transition-delay:.3s;}
-
-@media(max-width:640px){nav{padding:.65rem 1rem;}#skill-bar{top:46px;}.nav-links a{padding:.28rem .45rem;font-size:.5rem;}#lens{display:none;}.section-inner{padding:6rem 1.2rem 4rem;}}
+@media(max-width: 768px) { body { cursor: auto; } #lens, #cur-dot, #cur-ring { display: none; } }
 </style>
 </head>
 <body>
@@ -268,835 +124,123 @@ section{min-height:100vh;position:relative;overflow:hidden;}
 <div id="cur-ring"></div>
 <div id="lens"></div>
 
-<div id="trans-overlay">
-  <canvas id="trans-canvas"></canvas>
-  <div id="trans-label"></div>
-</div>
-
-<!-- MODAL -->
-<div id="modal-overlay">
-  <div id="modal-box">
-    <button id="modal-close">✕ Close</button>
-    <span id="modal-section-tag"></span>
-    <h2 id="modal-title"></h2>
-    <p id="modal-year"></p>
-    <div class="modal-domain-chips" id="modal-domains"></div>
-    <div id="modal-body"></div>
-    <ul id="modal-bullets"></ul>
-    <div id="modal-tags" class="project-tags"></div>
-  </div>
-</div>
-
 <nav>
-  <a class="nav-logo" href="#home">AMT</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#perception">Perception</a></li>
-    <li><a href="#controls">Controls</a></li>
-    <li><a href="#mechatronics">Mechatronics</a></li>
-    <li><a href="#rehabilitation">Rehab Tech</a></li>
-    <li><a href="#embodiedai">Embodied AI</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+    <a href="#home" class="nav-logo">ASHWIK.AI</a>
+    <ul class="nav-links">
+        <li><a href="#perception">Perception</a></li>
+        <li><a href="#controls">Controls</a></li>
+        <li><a href="#mechatronics">Mechatronics</a></li>
+        <li><a href="#embodiedai">Embodied AI</a></li>
+    </ul>
 </nav>
 
 <div id="skill-bar">
-  <span class="skill-bar-label">Filter:</span>
-  <button class="sf-btn" data-domain="perception">Perception</button>
-  <button class="sf-btn" data-domain="controls">Controls</button>
-  <button class="sf-btn" data-domain="mechatronics">Mechatronics</button>
-  <button class="sf-btn" data-domain="rehabilitation">Rehab Tech</button>
-  <button class="sf-btn" data-domain="embodiedai">Embodied AI</button>
-  <button class="sf-clear" id="sf-clear-btn">clear filter</button>
+    <button class="sf-btn" onclick="filter('perception')">Perception</button>
+    <button class="sf-btn" onclick="filter('controls')">Controls</button>
+    <button class="sf-btn" onclick="filter('embodiedai')">Embodied AI</button>
 </div>
 
-<!-- HOME -->
 <section id="home">
-  <canvas class="bg-canvas" id="bg-home"></canvas>
-  <div class="home-inner">
-    <p class="home-eyebrow">Mechatronics &amp; Robotics Engineer — NYU 2026</p>
-    <h1 class="home-name">Ashwik<span>Tatineni</span></h1>
-    <p class="home-subtitle">Building robots that perceive, reason, and act — from wearable rehab devices to autonomous navigation and embodied AI.</p>
-    <div class="home-tags">
-      <span class="home-tag">Robot Perception</span><span class="home-tag">Controls</span><span class="home-tag">Mechatronics</span><span class="home-tag">Rehabilitation Robotics</span><span class="home-tag">Embodied AI</span>
-    </div>
-    <div class="home-cta">
-      <a href="#about" class="btn btn-primary">Read More</a>
-      <a href="#perception" class="btn btn-secondary">View Projects</a>
-    </div>
-  </div>
-  <div class="about-strip">
-    <div class="about-stat"><span class="about-stat-num">7+</span><span class="about-stat-label">Robotics Projects</span></div>
-    <div class="about-stat"><span class="about-stat-num">3</span><span class="about-stat-label">Research Roles</span></div>
-    <div class="about-stat"><span class="about-stat-num">3.5</span><span class="about-stat-label">GPA / 4.0</span></div>
-    <div class="about-stat"><span class="about-stat-num">NYU</span><span class="about-stat-label">MERIIT Lab</span></div>
-    <div class="about-stat"><span class="about-stat-num">SRM</span><span class="about-stat-label">B.Tech Mechatronics</span></div>
-  </div>
-  <p class="home-scroll">scroll to explore</p>
+    <h1 class="sec-title" style="font-size: 8vw;">Robotics & <br><span style="color:#c97dff">Embodied AI</span></h1>
+    <p style="max-width: 600px; font-size: 1.2rem; color: #888;">MS Mechatronics @ NYU. Specializing in autonomous navigation and wearable rehabilitation robotics.</p>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <canvas class="bg-canvas" id="bg-home2"></canvas>
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-left reveal">
-        <h2>About<br>Me</h2>
-        <p>I'm a robotics engineer pursuing my MS in Mechatronics and Robotics at NYU Tandon School of Engineering, graduating May 2026. My work spans the full stack of robotics — from sensor fabrication and embedded hardware to reinforcement learning and embodied AI policies.</p>
-        <p>At the MERIIT Lab, I develop wearable rehabilitation devices, exoskeleton control algorithms, and haptic systems. I've also competed in hackathons, teaching robots to make sandwiches with imitation learning.</p>
-        <p>Before NYU, I completed my B.Tech in Mechatronics Engineering with a Robotics specialization at SRM University, where I built autonomous robots, computer vision tracking systems, and a vertical stacking mobile robot.</p>
-      </div>
-      <div class="about-right reveal rd1">
-        <div class="about-item">
-          <p class="about-item-title">Current Role</p>
-          <p class="about-item-val">Graduate Researcher, MERIIT Lab, NYU<br><span style="opacity:.5;font-size:.82rem;">Jan 2025 — Present</span></p>
-        </div>
-        <div class="about-item">
-          <p class="about-item-title">Teaching</p>
-          <p class="about-item-val">Course Assistant, Telerobotics (ROB-UY-3404)<br><span style="opacity:.5;font-size:.82rem;">Sep 2025 — Present</span></p>
-        </div>
-        <div class="about-item">
-          <p class="about-item-title">Education</p>
-          <p class="about-item-val">MS Mechatronics &amp; Robotics, NYU — 3.5 GPA<br>B.Tech Mechatronics, SRM University — 8.68/10</p>
-        </div>
-        <div class="about-item">
-          <p class="about-item-title">Core Expertise</p>
-          <p class="about-item-val">Robot Perception · Controls &amp; RL · Wearable Tech · Embodied AI · Fabrication</p>
-        </div>
-        <div class="about-item">
-          <p class="about-item-title">Location</p>
-          <p class="about-item-val">Brooklyn, NY, United States</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PERCEPTION -->
 <section id="perception">
-  <canvas class="bg-canvas" id="bg-perception"></canvas>
-  <div class="section-inner">
-    <div class="sec-header reveal">
-      <span class="sec-label">// SYS_MOD: VISION &amp; LOCALIZATION — FEED ACTIVE</span>
-      <h2 class="sec-title"><span>PERCEPTION</span><br>SYSTEMS</h2>
-    </div>
+    <h2 class="sec-title">Perception Systems</h2>
     <div class="projects-grid" id="grid-perception"></div>
-  </div>
 </section>
 
-<!-- CONTROLS -->
-<section id="controls">
-  <canvas class="bg-canvas" id="bg-controls"></canvas>
-  <div class="section-inner">
-    <div class="sec-header reveal">
-      <span class="sec-label">REF: CTRL-SYS // DESIGN AUTHORITY</span>
-      <h2 class="sec-title">CONTROL<br><span>SYSTEMS</span></h2>
-    </div>
-    <div class="projects-grid" id="grid-controls"></div>
-  </div>
-</section>
-
-<!-- MECHATRONICS -->
-<section id="mechatronics">
-  <canvas class="bg-canvas" id="bg-mechatronics"></canvas>
-  <div class="section-inner">
-    <div class="sec-header reveal">
-      <div class="chrome-line"></div>
-      <span class="sec-label">HARDWARE / ELECTRICAL / FABRICATION</span>
-      <h2 class="sec-title">MECHA&shy;TRONICS</h2>
-    </div>
-    <div class="projects-grid" id="grid-mechatronics"></div>
-  </div>
-</section>
-
-<!-- REHABILITATION -->
-<section id="rehabilitation">
-  <canvas class="bg-canvas" id="bg-rehabilitation"></canvas>
-  <div class="section-inner">
-    <div class="sec-header reveal">
-      <span class="sec-label">SPEC_DOMAIN: WEARABLE / EXOSKELETON / HAPTIC</span>
-      <h2 class="sec-title">Robot <span>Rehabilitation</span><br>&amp; Wearable Tech</h2>
-    </div>
-    <div class="projects-grid" id="grid-rehabilitation"></div>
-  </div>
-</section>
-
-<!-- EMBODIED AI -->
 <section id="embodiedai">
-  <canvas class="bg-canvas" id="bg-embodiedai"></canvas>
-  <div class="section-inner">
-    <div class="sec-header reveal">
-      <span class="sec-label">// NEURAL_EXEC — POLICY ONLINE</span>
-      <h2 class="sec-title glitch" data-text="EMBODIED AI">EMBODIED <span>AI</span></h2>
-    </div>
+    <h2 class="sec-title">Embodied AI</h2>
     <div class="projects-grid" id="grid-embodiedai"></div>
-  </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <canvas class="bg-canvas" id="bg-contact"></canvas>
-  <div class="section-inner">
-    <h2>Let's Build<br>Something.</h2>
-    <p class="contact-sub">at6287@nyu.edu &nbsp;|&nbsp; Brooklyn, NY &nbsp;|&nbsp; Open to opportunities</p>
-    <div class="contact-links">
-      <a href="mailto:at6287@nyu.edu" class="contact-link">Email Me</a>
-      <a href="https://linkedin.com/in/ashwik-manoj-tatineni" target="_blank" class="contact-link">LinkedIn</a>
-      <a href="#home" class="contact-link">Back to Top</a>
+<div id="modal-overlay">
+    <div id="modal-box">
+        <h2 id="m-title"></h2>
+        <p id="m-desc" style="margin: 20px 0; color: #ccc;"></p>
+        <button onclick="closeModal()" style="padding: 10px 20px; cursor: pointer;">Close</button>
     </div>
-    <p class="footer-copy">2025 ASHWIK MANOJ TATINENI — ROBOTICS ENGINEER</p>
-  </div>
-</section>
+</div>
 
 <script>
-'use strict';
-
-/* ═══════════════════════════════════════════════════
-   PROJECT DATA
-═══════════════════════════════════════════════════ */
-var PROJECTS = [
-  {
-    id:'nav-robot',
-    title:'Autonomous Visual Navigation Robot',
-    year:'Oct — Dec 2025',
-    section:'perception',
-    domains:['perception','controls','embodiedai'],
-    summary:'Mapless navigation using ResNet50 extracting 2048-dim global features, building a sparse topological graph from 3,751 images. A* + Ball Tree for real-time visual localization.',
-    bullets:[
-      'Engineered a mapless navigation pipeline using a pre-trained ResNet50 backbone to extract 2048-dimensional global features',
-      'Constructed a sparse weighted topological graph G(V,E,W) from 3,751 exploration images',
-      'Implemented A* search algorithm for optimal path planning integrated with a Ball Tree (O log N) for fast nearest-neighbor queries',
-      'Developed a dynamic navigation loop with stuck-detection by monitoring feature variance across frames, triggering online replanning'
-    ],
-    tags:['ResNet50','A* Search','Ball Tree','Topological Graph','Python','Visual Localization']
-  },
-  {
-    id:'tracking-2axis',
-    title:'2-Axis Object Tracking via Deep Learning',
-    year:'Nov 2023 — Apr 2024',
-    section:'perception',
-    domains:['perception','controls'],
-    summary:'Real-time 2-axis tracking detecting 80 object classes using YOLOv8 + DeepSORT. MVS SDK image acquisition with user-driven motor control to keep target centered.',
-    bullets:[
-      'Developed a 2-axis object tracking system capable of detecting up to 80 distinct classes',
-      'Designed an interface to acquire images via the MVS SDK',
-      'Implemented YOLOv8 for object detection with DeepSORT for object tracking',
-      'Enabled user-driven mouse input to dynamically adjust motor control, keeping the target centered in the frame'
-    ],
-    tags:['YOLOv8','DeepSORT','MVS SDK','Motor Control','Real-time']
-  },
-  {
-    id:'cv-gait',
-    title:'Movement Tracking CV Pipeline',
-    year:'Feb — May 2025',
-    section:'perception',
-    domains:['perception','rehabilitation','controls'],
-    summary:'Led the computer vision pipeline for a dual-system gait rehab platform. Blue-object tracking with pixel-to-world mapping and depth estimation via pinhole camera model.',
-    bullets:[
-      'Led the computer vision pipeline for a dual-system setup involving a 3-RPS parallel manipulator on a gantry',
-      'Enabled real-time tracking and gait motion control via a blue-object-based target',
-      'Implemented pixel-to-world mapping and depth estimation using the pinhole camera model',
-      'Designed and integrated a custom blue target box housing an IMU'
-    ],
-    tags:['Pinhole Model','Depth Estimation','OpenCV','Real-time','IMU']
-  },
-  {
-    id:'force-control',
-    title:'Virtual Force Measurement & Adaptive Control',
-    year:'Nov — Dec 2025',
-    section:'controls',
-    domains:['controls','perception'],
-    summary:'Closed-loop adaptive controller modulating manipulator velocity from real-time WrenchStamped force feedback in Gazebo. Dynamic thresholds prevent safety violations.',
-    bullets:[
-      'Architected a high-fidelity Gazebo simulation environment integrated with a virtual end-effector force/torque sensor',
-      'Extracted real-time WrenchStamped data via ROS/MATLAB for contact analysis',
-      'Developed a closed-loop adaptive controller that modulates manipulator velocity and grasp strategy based on real-time force feedback',
-      'Utilized dynamic thresholds to prevent safety violations during object hand-offs',
-      'Engineered a data logging pipeline evaluating peak force, standard deviation, and contact duration'
-    ],
-    tags:['ROS','Gazebo','MATLAB','Force/Torque','Adaptive Control','WrenchStamped']
-  },
-  {
-    id:'quadruped-rl',
-    title:'Quadruped Locomotion via Reinforcement Learning',
-    year:'Nov — Dec 2025',
-    section:'controls',
-    domains:['controls','embodiedai'],
-    summary:'Locomotion policy for Unitree Go2 in Isaac Lab. PD torque controller (Kp=20, Kd=0.5) + Raibert heuristics + gait clock. Domain randomization with stochastic actuator friction.',
-    bullets:[
-      'Developed a robust locomotion policy for a Unitree Go2 robot in Isaac Lab',
-      'Progressively optimized an RL agent from a baseline velocity tracker to a stable gait using action-rate regularization',
-      'Implemented an explicit PD torque controller (Kp=20, Kd=0.5) and integrated Raibert heuristics with gait clock logic',
-      'Enforced physically consistent foot placement and eliminated crawling artifacts',
-      'Introduced stochastic actuator friction (static and viscous) during training resets to reduce policy jitter'
-    ],
-    tags:['Isaac Lab','PPO','PD Control','Domain Randomization','Unitree Go2','Raibert Heuristics']
-  },
-  {
-    id:'holonomic-nav',
-    title:'Autonomous Indoor Navigation — Holonomic Robot',
-    year:'Aug — Oct 2023',
-    section:'controls',
-    domains:['controls','perception'],
-    summary:'Holonomic autonomous robot reaching positions via PRM path points from stereo camera data. Derived and validated kinematic model enabling accurate Dead-Reckoning.',
-    bullets:[
-      'Developed a holonomic autonomous robot capable of reaching designated positions via path points generated from stereo camera data',
-      'Used Probabilistic Roadmap Method (PRM) for global path planning',
-      'Derived and validated a kinematic model to facilitate accurate path planning',
-      'Implemented Dead-Reckoning for movement estimation and position tracking'
-    ],
-    tags:['PRM','Dead Reckoning','Kinematics','Stereo Vision','Holonomic Drive']
-  },
-  {
-    id:'lerobot-arm',
-    title:'LeRobot S-100 Arm Assembly',
-    year:'Apr 2025',
-    section:'mechatronics',
-    domains:['mechatronics','embodiedai'],
-    summary:'Assembled LeRobot S-100 arm from hardware, recorded 100 episodes per task, trained sequential task policies using ACT. Explored VLA policies including pi-zero and Groot N1.5.',
-    bullets:[
-      'Assembled LeRobot S-100 Arm from components, including all mechanical and electrical integration',
-      'Recorded the data of 100 episodes per task for imitation learning',
-      'Implemented ACT (Action Chunking Transformer) policy to train sequential tasks',
-      'Gained exposure to other VLA policies including Physical Intelligence pi-zero and NVIDIA Groot N1.5'
-    ],
-    tags:['LeRobot','Assembly','ACT Policy','Data Collection','Imitation Learning']
-  },
-  {
-    id:'stacking-robot',
-    title:'Vertical Stacking Mobile Robot',
-    year:'Jul — Aug 2023',
-    section:'mechatronics',
-    domains:['mechatronics','controls'],
-    summary:'Designed and assembled a differential wheeled robot with a pneumatic piston base and conveyor for vertical stacking. PID-controlled line-follower for precise path-following.',
-    bullets:[
-      'Designed and assembled a differential wheeled robot with a pneumatic piston base',
-      'Integrated a conveyor mechanism for vertical stacking operations',
-      'Built a line-following robot utilizing PID control to ensure stable and precise path-following capabilities'
-    ],
-    tags:['Pneumatics','PID','Differential Drive','Assembly','Line Following']
-  },
-  {
-    id:'cipn-sock',
-    title:'Multi-Modal Sock for CIPN Rehabilitation',
-    year:'Jan 2025 — Present',
-    section:'mechatronics',
-    domains:['mechatronics','rehabilitation'],
-    summary:'Fabricated a wearable multi-modal sock integrating custom capacitive pressure sensor arrays for gait analysis targeting CIPN rehabilitation at the MERIIT Lab.',
-    bullets:[
-      'Fabricated a Multi-Modal Sock for CIPN (Chemotherapy-Induced Peripheral Neuropathy) Rehabilitation',
-      'Developed a custom Capacitive Pressure Sensor Array for Gait Analysis',
-      'Integrated multiple sensing modalities within a wearable sock form factor',
-      'Conducted fabrication, assembly, and testing at MERIIT Lab, NYU'
-    ],
-    tags:['Wearable','Capacitive Sensing','CIPN','Fabrication','Gait Analysis','MERIIT Lab']
-  },
-  {
-    id:'exoskeleton',
-    title:'3-Axis Wrist Exoskeleton — Neuromuscular Rehab',
-    year:'Jan 2025 — Present',
-    section:'rehabilitation',
-    domains:['rehabilitation','controls','mechatronics'],
-    summary:'Torque control algorithm for a 3-axis exoskeleton targeting neuromuscular wrist rehabilitation. EPOS4 integration with axis-specific safety limits and haptic glove calibration.',
-    bullets:[
-      'Developed an algorithm to control the torque of a 3-Axis Exoskeleton for Neuromuscular Wrist Rehabilitation',
-      'Integrated with the EPOS4 Module and programmed integrated safety limits across each axis',
-      'Calibrated and programmed the data acquisition of the sensors on the Haptic Glove',
-      'Ensured safe operation with multi-axis torque limiting and real-time feedback monitoring'
-    ],
-    tags:['Exoskeleton','EPOS4','Torque Control','Haptic Glove','Rehabilitation','MERIIT Lab']
-  },
-  {
-    id:'pressure-sensor',
-    title:'Capacitive Pressure Sensor Array — Gait Analysis',
-    year:'Jan 2025 — Present',
-    section:'rehabilitation',
-    domains:['rehabilitation','mechatronics'],
-    summary:'Custom capacitive pressure sensor array for CIPN rehabilitation wearable. Sensor fabrication, signal conditioning, and real-time gait pattern capture.',
-    bullets:[
-      'Designed and developed a custom Capacitive Pressure Sensor Array',
-      'Targeted integration into the CIPN rehabilitation wearable sock',
-      'Focused on sensor fabrication processes and material selection',
-      'Implemented signal conditioning circuitry for reliable gait data capture',
-      'Enabled real-time gait pattern monitoring and analysis'
-    ],
-    tags:['Capacitive Sensing','Signal Conditioning','Wearable','CIPN','PCB Design']
-  },
-  {
-    id:'gait-platform',
-    title:'Gait Rehab Parallel Manipulator Platform',
-    year:'Feb — May 2025',
-    section:'rehabilitation',
-    domains:['rehabilitation','controls','perception','mechatronics'],
-    summary:'3-RPS parallel manipulator on a gantry with real-time CV-driven gait motion control. Custom IMU-embedded target box with pixel-to-world coordinate mapping.',
-    bullets:[
-      'Led the computer vision pipeline for a dual-system setup with a 3-RPS parallel manipulator on a gantry',
-      'Designed and integrated a custom blue target box housing an IMU',
-      'Implemented pixel-to-world mapping and depth estimation using the pinhole camera model',
-      'Enabled real-time tracking and gait motion control for the hybrid parallel platform'
-    ],
-    tags:['3-RPS Manipulator','IMU','Gantry','Gait Rehab','Computer Vision','MERIIT Lab']
-  },
-  {
-    id:'sandwich-bot',
-    title:'LeRobot Hackathon — Sandwich Making Bot',
-    year:'Apr 2025',
-    section:'embodiedai',
-    domains:['embodiedai','mechatronics','controls'],
-    summary:'ACT policy trained on 100 imitation learning episodes per task. Explored VLA paradigms: Physical Intelligence pi-zero and NVIDIA Groot N1.5.',
-    bullets:[
-      'Assembled LeRobot S-100 Arm and recorded data of 100 episodes per task for the sandwich making workflow',
-      'Implemented ACT (Action Chunking Transformer) policy to train sequential manipulation tasks',
-      'Successfully demonstrated multi-step task execution via learned policy',
-      'Gained exposure to other VLA policies like pi-zero and NVIDIA Groot N1.5'
-    ],
-    tags:['ACT','Imitation Learning','VLA','pi-zero','Groot N1.5','Manipulation']
-  },
-  {
-    id:'topo-nav',
-    title:'Topological Graph Navigation',
-    year:'Oct 2025',
-    section:'embodiedai',
-    domains:['embodiedai','perception','controls'],
-    summary:'ResNet50-powered visual place recognition driving A* graph search for autonomous navigation without HD maps. Foundational architecture for scene-aware robot autonomy.',
-    bullets:[
-      'Engineered a mapless navigation pipeline using ResNet50 for 2048-dim visual feature extraction',
-      'Built a weighted topological graph from 3,751 exploration images',
-      'Implemented A* search for optimal graph traversal and Ball Tree for O(log N) visual localization',
-      'Demonstrated scene-aware autonomy without reliance on HD maps'
-    ],
-    tags:['Deep Learning','Visual Place Recognition','A* Search','Graph Navigation','ResNet50']
-  },
-  {
-    id:'quadruped-ai',
-    title:'Quadruped RL Locomotion — Embodied Policy',
-    year:'Nov — Dec 2025',
-    section:'embodiedai',
-    domains:['embodiedai','controls'],
-    summary:'End-to-end RL locomotion policy in Isaac Lab for Unitree Go2. Raibert heuristics + gait clock enforce consistent gait. Sim-to-real transfer via domain randomization.',
-    bullets:[
-      'Developed an end-to-end RL locomotion policy for the Unitree Go2 quadruped in Isaac Lab',
-      'Applied Raibert heuristics and gait clock logic for physically consistent foot placement',
-      'Used action-rate regularization to improve gait stability',
-      'Engineered domain randomization (stochastic actuator friction) for robust sim-to-real transfer'
-    ],
-    tags:['Isaac Lab','PPO','Sim-to-Real','Unitree Go2','Locomotion','Embodied AI']
-  }
+const PROJECTS = [
+    { id: 1, section: 'perception', title: 'Visual Navigation', desc: 'ResNet50 based mapless topological navigation.', tags: ['Python', 'CV'] },
+    { id: 2, section: 'embodiedai', title: 'Unitree Go2 RL', desc: 'End-to-end PPO locomotion in Isaac Lab.', tags: ['RL', 'Sim2Real'] },
+    { id: 3, section: 'embodiedai', title: 'LeRobot Arm', desc: 'Imitation learning for sandwich making.', tags: ['ACT', 'VLA'] }
 ];
 
-/* ═══════════════════════════════════════════════════
-   CURSOR SHAPES PER SECTION
-═══════════════════════════════════════════════════ */
-var CURSORS = {
-  home: {
-    dot: function(){ return '<svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="#c97dff"/><circle cx="7" cy="7" r="6" fill="none" stroke="#c97dff" stroke-width="1" opacity=".4"/></svg>'; },
-    ring: {color:'rgba(200,150,255,0.5)', radius:'50%'},
-    lens: {color:'rgba(160,100,255,0.08)'}
-  },
-  about: {
-    dot: function(){ return '<svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="#c97dff"/><circle cx="7" cy="7" r="6" fill="none" stroke="#c97dff" stroke-width="1" opacity=".4"/></svg>'; },
-    ring: {color:'rgba(200,150,255,0.5)', radius:'50%'},
-    lens: {color:'rgba(160,100,255,0.08)'}
-  },
-  perception: {
-    dot: function(){ return '<svg width="22" height="22" viewBox="0 0 22 22"><line x1="11" y1="0" x2="11" y2="6" stroke="#00ff3c" stroke-width="1.5"/><line x1="11" y1="16" x2="11" y2="22" stroke="#00ff3c" stroke-width="1.5"/><line x1="0" y1="11" x2="6" y2="11" stroke="#00ff3c" stroke-width="1.5"/><line x1="16" y1="11" x2="22" y2="11" stroke="#00ff3c" stroke-width="1.5"/><circle cx="11" cy="11" r="3.5" fill="none" stroke="#00ff3c" stroke-width="1.2"/><circle cx="11" cy="11" r="1" fill="#00ff3c"/></svg>'; },
-    ring: {color:'rgba(0,255,60,0.5)', radius:'0%'},
-    lens: {color:'rgba(0,255,60,0.05)'}
-  },
-  controls: {
-    dot: function(){ return '<svg width="20" height="20" viewBox="0 0 20 20"><rect x="8" y="0" width="4" height="8" fill="none" stroke="#4db8ff" stroke-width="1.2"/><rect x="8" y="12" width="4" height="8" fill="none" stroke="#4db8ff" stroke-width="1.2"/><circle cx="10" cy="10" r="2" fill="#4db8ff"/><circle cx="10" cy="10" r="4.5" fill="none" stroke="#4db8ff" stroke-width="1" opacity=".5"/></svg>'; },
-    ring: {color:'rgba(77,184,255,0.5)', radius:'3px'},
-    lens: {color:'rgba(0,100,255,0.06)'}
-  },
-  mechatronics: {
-    dot: function(){ return '<svg width="16" height="16" viewBox="0 0 16 16"><polygon points="8,1 15,5 15,11 8,15 1,11 1,5" fill="none" stroke="#d0d0e8" stroke-width="1.2"/><circle cx="8" cy="8" r="2" fill="#d0d0e8"/></svg>'; },
-    ring: {color:'rgba(200,200,220,0.5)', radius:'3px'},
-    lens: {color:'rgba(200,200,220,0.04)'}
-  },
-  rehabilitation: {
-    dot: function(){ return '<svg width="18" height="18" viewBox="0 0 18 18"><path d="M9,2 Q12,2 12,5 Q12,8 9,8 Q6,8 6,5 Q6,2 9,2Z" fill="none" stroke="#00dca8" stroke-width="1.2"/><path d="M4,9 Q1,9 1,12 Q1,16 9,16 Q17,16 17,12 Q17,9 14,9" fill="none" stroke="#00dca8" stroke-width="1.2"/><line x1="9" y1="8" x2="9" y2="10" stroke="#00dca8" stroke-width="1.2"/></svg>'; },
-    ring: {color:'rgba(0,220,168,0.5)', radius:'50%'},
-    lens: {color:'rgba(0,220,168,0.05)'}
-  },
-  embodiedai: {
-    dot: function(){ return '<svg width="16" height="16" viewBox="0 0 16 16"><rect x="3" y="3" width="10" height="10" fill="none" stroke="#ff0080" stroke-width="1.3"/><rect x="6" y="6" width="4" height="4" fill="#ff0080"/><line x1="0" y1="3" x2="3" y2="3" stroke="#00c8ff" stroke-width="1"/><line x1="0" y1="13" x2="3" y2="13" stroke="#00c8ff" stroke-width="1"/><line x1="13" y1="3" x2="16" y2="3" stroke="#00c8ff" stroke-width="1"/><line x1="13" y1="13" x2="16" y2="13" stroke="#00c8ff" stroke-width="1"/></svg>'; },
-    ring: {color:'rgba(255,0,128,0.5)', radius:'0%'},
-    lens: {color:'rgba(255,0,128,0.05)'}
-  },
-  contact: {
-    dot: function(){ return '<svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="3" fill="#c97dff"/><circle cx="7" cy="7" r="6" fill="none" stroke="#c97dff" stroke-width="1" opacity=".4"/></svg>'; },
-    ring: {color:'rgba(200,150,255,0.5)', radius:'50%'},
-    lens: {color:'rgba(160,100,255,0.08)'}
-  }
-};
+/* ═══════════════════════════════════
+   CORE ENGINE
+═══════════════════════════════════ */
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+const lens = document.getElementById('lens');
 
-/* ═══════════════════════════════════════════════════
-   CURSOR ENGINE
-═══════════════════════════════════════════════════ */
-var curDot  = document.getElementById('cur-dot');
-var curRing = document.getElementById('cur-ring');
-var lens    = document.getElementById('lens');
-var mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my, lx=mx, ly=my;
-var currentSection = 'home';
+let mx=0, my=0, rx=0, ry=0, lx=0, ly=0;
 
-document.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; curDot.style.left=mx+'px'; curDot.style.top=my+'px'; });
-(function animCursor(){
-  rx+=(mx-rx)*0.14; ry+=(my-ry)*0.14; curRing.style.left=rx+'px'; curRing.style.top=ry+'px';
-  lx+=(mx-lx)*0.07; ly+=(my-ly)*0.07; lens.style.left=lx+'px'; lens.style.top=ly+'px';
-  requestAnimationFrame(animCursor);
-})();
+// Initialize Dot SVG
+dot.innerHTML = `<svg width="14" height="14"><circle cx="7" cy="7" r="3" fill="white"/></svg>`;
 
-function applyCursorTheme(secId) {
-  if(secId===currentSection) return;
-  currentSection = secId;
-  var theme = CURSORS[secId] || CURSORS.home;
-  // dot SVG
-  curDot.innerHTML = theme.dot();
-  // ring shape
-  curRing.style.borderColor = theme.ring.color;
-  curRing.style.borderRadius = theme.ring.radius;
-}
-
-// hover expand
-document.addEventListener('mouseover', function(e){
-  var el = e.target.closest('a,button,.project-card,.skill-pill,.home-tag,.sf-btn,.contact-link,.btn');
-  if(el){ curRing.style.width='64px'; curRing.style.height='64px'; lens.style.width='200px'; lens.style.height='200px'; }
-  else { curRing.style.width='40px'; curRing.style.height='40px'; lens.style.width='150px'; lens.style.height='150px'; }
+document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = `${mx}px`;
+    dot.style.top = `${my}px`;
 });
 
-// init dot
-curDot.innerHTML = CURSORS.home.dot();
+function animate() {
+    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+    ring.style.left = `${rx}px`; ring.style.top = `${ry}px`;
 
-/* ═══════════════════════════════════════════════════
-   RENDER PROJECT CARDS
-═══════════════════════════════════════════════════ */
-function domainColor(d){ return {perception:'#00ff3c',controls:'#4db8ff',mechatronics:'#c0c0d0',rehabilitation:'#00dca8',embodiedai:'#ff0080'}[d]||'#888'; }
+    lx += (mx - lx) * 0.07; ly += (my - ly) * 0.07;
+    lens.style.left = `${lx}px`; lens.style.top = `${ly}px`;
 
-function renderCards() {
-  var grids = {perception:'grid-perception',controls:'grid-controls',mechatronics:'grid-mechatronics',rehabilitation:'grid-rehabilitation',embodiedai:'grid-embodiedai'};
-  Object.keys(grids).forEach(function(sec){
-    var el = document.getElementById(grids[sec]);
-    if(!el) return;
-    var projects = PROJECTS.filter(function(p){ return p.section===sec; });
-    el.innerHTML = projects.map(function(p, i){
-      var delay = 'rd'+(i%3+1);
-      var tagHtml = p.tags.map(function(t){ return '<span class="ptag">'+t+'</span>'; }).join('');
-      var badge = '';
-      if(sec==='perception') badge = '<div class="cam-badge"><span class="cam-dot"></span>REC</div>';
-      if(sec==='controls') badge = '<span class="bp-ref">DOC-2025-'+p.id.toUpperCase().substring(0,6)+'-001</span>';
-      if(sec==='rehabilitation') badge = '<span class="spec-badge">MERIIT LAB</span>';
-      return '<div class="project-card reveal '+delay+'" data-id="'+p.id+'" data-section="'+sec+'" data-domains="'+p.domains.join(',')+'" onclick="openModal(\''+p.id+'\')">'+
-        badge+
-        '<p class="project-card-year">'+p.year+'</p>'+
-        '<h3>'+p.title+'</h3>'+
-        '<p>'+p.summary+'</p>'+
-        '<div class="project-tags">'+tagHtml+'</div>'+
-        '<span class="card-open-hint">click to expand →</span>'+
-      '</div>';
-    }).join('');
-  });
-  // re-observe reveals
-  document.querySelectorAll('.reveal:not(.visible)').forEach(function(r){ revObs.observe(r); });
+    requestAnimationFrame(animate);
 }
+animate();
 
-/* ═══════════════════════════════════════════════════
-   FILTER SYSTEM
-═══════════════════════════════════════════════════ */
-var activeFilter = null;
-
-document.querySelectorAll('.sf-btn').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    var domain = btn.getAttribute('data-domain');
-    if(activeFilter === domain){ clearFilter(); return; }
-    activeFilter = domain;
-    document.querySelectorAll('.sf-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    applyFilter();
-  });
-});
-document.getElementById('sf-clear-btn').addEventListener('click', clearFilter);
-
-function applyFilter(){
-  document.querySelectorAll('.project-card').forEach(function(card){
-    var domains = card.getAttribute('data-domains').split(',');
-    card.classList.toggle('filtered-out', domains.indexOf(activeFilter)===-1);
-  });
-}
-function clearFilter(){
-  activeFilter = null;
-  document.querySelectorAll('.sf-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.querySelectorAll('.project-card').forEach(function(card){ card.classList.remove('filtered-out'); });
-}
-
-/* ═══════════════════════════════════════════════════
-   MODAL
-═══════════════════════════════════════════════════ */
-function openModal(id){
-  var p = PROJECTS.find(function(x){ return x.id===id; });
-  if(!p) return;
-  var overlay = document.getElementById('modal-overlay');
-  document.getElementById('modal-section-tag').textContent = p.section.toUpperCase()+' / '+p.domains.join(' · ').toUpperCase();
-  document.getElementById('modal-title').textContent = p.title;
-  document.getElementById('modal-year').textContent = p.year;
-  document.getElementById('modal-body').textContent = '';
-
-  // domain chips
-  var domainsEl = document.getElementById('modal-domains');
-  domainsEl.innerHTML = p.domains.map(function(d){
-    return '<span class="domain-chip" style="border-color:'+domainColor(d)+';color:'+domainColor(d)+'">'+d+'</span>';
-  }).join('');
-
-  // bullets
-  var ul = document.getElementById('modal-bullets');
-  ul.innerHTML = p.bullets.map(function(b){ return '<li>'+b+'</li>'; }).join('');
-
-  // tags
-  var tagsEl = document.getElementById('modal-tags');
-  tagsEl.innerHTML = p.tags.map(function(t){ return '<span class="ptag" style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);">'+t+'</span>'; }).join('');
-
-  // style box border per section
-  var colors = {perception:'#00ff3c',controls:'#4db8ff',mechatronics:'#d0d0e8',rehabilitation:'#00dca8',embodiedai:'#ff0080'};
-  document.getElementById('modal-box').style.borderColor = 'rgba('+hexToRgb(colors[p.section]||'#ffffff')+',0.3)';
-  document.getElementById('modal-section-tag').style.color = colors[p.section]||'#888';
-
-  overlay.classList.add('open');
-  document.body.style.overflow='hidden';
-}
-
-function closeModal(){
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('modal-close').addEventListener('click', closeModal);
-document.getElementById('modal-overlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
-
-function hexToRgb(hex){
-  var r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return r?parseInt(r[1],16)+','+parseInt(r[2],16)+','+parseInt(r[3],16):'255,255,255';
-}
-
-/* ═══════════════════════════════════════════════════
-   SCROLL REVEAL + ACTIVE NAV + CURSOR THEME
-═══════════════════════════════════════════════════ */
-var revObs = new IntersectionObserver(function(entries){
-  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:0.08});
-document.querySelectorAll('.reveal').forEach(function(r){ revObs.observe(r); });
-
-var allSecs = document.querySelectorAll('section[id]');
-var navAs = document.querySelectorAll('.nav-links a');
-new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){
-      navAs.forEach(function(l){ l.classList.remove('active'); });
-      var a = document.querySelector('.nav-links a[href="#'+e.target.id+'"]');
-      if(a) a.classList.add('active');
-      applyCursorTheme(e.target.id);
-    }
-  });
-},{threshold:0.35}).observe;
-
-// use separate observer for cursor since we need more precision
-allSecs.forEach(function(s){
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ applyCursorTheme(s.id); var a=document.querySelector('.nav-links a[href="#'+s.id+'"]'); if(a){ navAs.forEach(function(l){l.classList.remove('active');}); a.classList.add('active'); } } });
-  },{threshold:0.35}).observe(s);
-});
-
-/* ═══════════════════════════════════════════════════
-   SECTION TRANSITION WIPE
-═══════════════════════════════════════════════════ */
-var tOver=document.getElementById('trans-overlay'),tCvs=document.getElementById('trans-canvas'),tCtx=tCvs.getContext('2d'),tLbl=document.getElementById('trans-label');
-var themes={home:{label:'HOME',color:'#c97dff',bg:'#0d0b14'},about:{label:'ABOUT',color:'#a88fcc',bg:'#0b0a10'},perception:{label:'PERCEPTION',color:'#00ff3c',bg:'#040605'},controls:{label:'CONTROLS',color:'#4db8ff',bg:'#020c18'},mechatronics:{label:'MECHATRONICS',color:'#d0d0e8',bg:'#0e0e11'},rehabilitation:{label:'REHAB TECH',color:'#00dca8',bg:'#05080c'},embodiedai:{label:'EMBODIED AI',color:'#ff0080',bg:'#060408'},contact:{label:'CONTACT',color:'#c97dff',bg:'#0d0b14'}};
-var transitioning=false,lastSec='home';
-function doTransition(toId){
-  if(transitioning||toId===lastSec)return; transitioning=true; lastSec=toId;
-  var theme=themes[toId]||themes.home;
-  tCvs.width=innerWidth; tCvs.height=innerHeight;
-  tLbl.textContent=theme.label; tLbl.style.color=theme.color; tLbl.style.textShadow='0 0 40px '+theme.color;
-  tOver.style.opacity='1';
-  var W=tCvs.width,H=tCvs.height,frame=0,IN=40,HOLD=16,OUT=26,phase='in';
-  function step(){
-    frame++; tCtx.clearRect(0,0,W,H);
-    if(phase==='in'){
-      var p=frame/IN,ex=p*(W+300)-150;
-      tCtx.fillStyle=theme.bg; tCtx.beginPath(); tCtx.moveTo(0,0);
-      for(var y=0;y<=H;y+=16){var jag=Math.sin(y*.04+p*8)*(1-p)*20; tCtx.lineTo(ex+jag,y);}
-      tCtx.lineTo(0,H); tCtx.closePath(); tCtx.fill();
-      var lg=tCtx.createLinearGradient(ex-3,0,ex+3,0); lg.addColorStop(0,'transparent'); lg.addColorStop(.5,theme.color); lg.addColorStop(1,'transparent'); tCtx.fillStyle=lg; tCtx.fillRect(ex-3,0,6,H);
-      tLbl.style.opacity=p>.38?String((p-.38)/.62):'0';
-      if(frame>=IN){phase='hold';frame=0;}
-    } else if(phase==='hold'){
-      tCtx.fillStyle=theme.bg; tCtx.fillRect(0,0,W,H); tLbl.style.opacity='1';
-      if(frame>=HOLD){phase='out';frame=0;}
+// Section Detection for Glitch Effect
+window.addEventListener('scroll', () => {
+    const aiSec = document.getElementById('embodiedai');
+    const rect = aiSec.getBoundingClientRect();
+    if(rect.top < window.innerHeight/2 && rect.bottom > window.innerHeight/2) {
+        lens.classList.add('glitch-mode');
+        ring.style.borderColor = '#ff0080';
     } else {
-      var p=frame/OUT,ex=p*(W+300);
-      tCtx.fillStyle=theme.bg; tCtx.beginPath(); tCtx.moveTo(ex,0); tCtx.lineTo(W,0); tCtx.lineTo(W,H);
-      for(var y=H;y>=0;y-=16){var jag=Math.sin(y*.04+p*8)*(1-p)*14; tCtx.lineTo(ex+jag,y);}
-      tCtx.closePath(); tCtx.fill(); tLbl.style.opacity=String(1-p);
-      if(frame>=OUT){tOver.style.opacity='0';transitioning=false;return;}
+        lens.classList.remove('glitch-mode');
+        ring.style.borderColor = 'rgba(255,255,255,0.4)';
     }
-    requestAnimationFrame(step);
-  }
-  step();
-}
-document.querySelectorAll('.nav-links a, .btn, a[href^="#"]').forEach(function(a){
-  a.addEventListener('click',function(e){
-    var href=a.getAttribute('href');
-    if(!href||!href.startsWith('#'))return;
-    e.preventDefault();
-    var target=href.slice(1);
-    if(document.getElementById(target)){
-      doTransition(target);
-      setTimeout(function(){ document.getElementById(target).scrollIntoView({behavior:'smooth'}); },420);
-    }
-  });
 });
 
-/* ═══════════════════════════════════════════════════
-   BACKGROUND CANVASES
-═══════════════════════════════════════════════════ */
-// HOME (reused for about and contact too)
-function makeOrbCanvas(id, orbs, particleColor){
-  var c=document.getElementById(id); if(!c)return;
-  var ctx=c.getContext('2d');
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
-  rsz(); window.addEventListener('resize',rsz);
-  var pts=Array.from({length:45},function(){return {x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.00025,vy:(Math.random()-.5)*.00025,r:Math.random()*1.6+.4,a:Math.random()*.3+.04};});
-  function draw(){
-    var W=c.width,H=c.height; ctx.clearRect(0,0,W,H);
-    orbs.forEach(function(o){var g=ctx.createRadialGradient(o[0]*W,o[1]*H,0,o[0]*W,o[1]*H,o[2]*Math.max(W,H));g.addColorStop(0,o[3]);g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);});
-    pts.forEach(function(p){p.x=(p.x+p.vx+1)%1;p.y=(p.y+p.vy+1)%1;ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);ctx.fillStyle='rgba('+particleColor+','+p.a+')';ctx.fill();});
-    requestAnimationFrame(draw);
-  }
-  draw();
+// UI Interactions
+function render() {
+    ['perception', 'embodiedai'].forEach(s => {
+        const g = document.getElementById(`grid-${s}`);
+        g.innerHTML = PROJECTS.filter(p => p.section === s).map(p => `
+            <div class="project-card reveal" onclick="openModal('${p.title}', '${p.desc}')">
+                <h3>${p.title}</h3>
+                <p style="font-size: 0.8rem; color: #888; margin: 10px 0;">${p.desc}</p>
+                <div>${p.tags.map(t => `<span class="ptag">${t}</span>`).join('')}</div>
+            </div>
+        `).join('');
+    });
 }
-makeOrbCanvas('bg-home',[[.2,.6,.38,'rgba(160,100,220,0.12)'],[.8,.3,.30,'rgba(80,200,180,0.1)'],[.6,.85,.26,'rgba(220,80,160,0.09)']],'200,150,255');
-makeOrbCanvas('bg-home2',[[.3,.5,.35,'rgba(140,80,200,0.09)'],[.75,.4,.25,'rgba(60,180,160,0.07)']],'200,150,255');
-makeOrbCanvas('bg-contact',[[.5,.5,.5,'rgba(140,80,200,0.1)']],'200,150,255');
 
-// PERCEPTION
-(function(){
-  var c=document.getElementById('bg-perception'); if(!c)return;
-  var ctx=c.getContext('2d');
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
-  rsz(); window.addEventListener('resize',rsz);
-  var scanY=0,frame=0,lbls=['TARGET_A','TRACK_02','ANOMALY','OBJ_017','MOTION','ID:UNK'],boxes=[];
-  function mkBox(){return{x:.05+Math.random()*.75,y:.1+Math.random()*.75,w:.06+Math.random()*.1,h:.04+Math.random()*.08,life:0,max:160+Math.random()*220,lbl:lbls[Math.floor(Math.random()*6)]};}
-  for(var i=0;i<5;i++)boxes.push(mkBox());
-  function draw(){
-    var W=c.width,H=c.height; ctx.clearRect(0,0,W,H);
-    ctx.strokeStyle='rgba(0,255,60,.055)';ctx.lineWidth=1;
-    for(var x=0;x<W;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(var y=0;y<H;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    ctx.strokeStyle='rgba(0,255,60,.02)';ctx.lineWidth=.5;
-    for(var x=0;x<W;x+=15){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(var y=0;y<H;y+=15){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    boxes.forEach(function(b,i){
-      b.life++;if(b.life>b.max){boxes[i]=mkBox();return;}
-      var alpha=Math.sin((b.life/b.max)*Math.PI),bx=b.x*W,by=b.y*H,bw=b.w*W,bh=b.h*H,cs=9;
-      ctx.strokeStyle='rgba(0,255,60,'+(alpha*.42)+')';ctx.lineWidth=1;
-      ctx.beginPath();ctx.moveTo(bx,by+cs);ctx.lineTo(bx,by);ctx.lineTo(bx+cs,by);ctx.moveTo(bx+bw-cs,by);ctx.lineTo(bx+bw,by);ctx.lineTo(bx+bw,by+cs);ctx.moveTo(bx+bw,by+bh-cs);ctx.lineTo(bx+bw,by+bh);ctx.lineTo(bx+bw-cs,by+bh);ctx.moveTo(bx+cs,by+bh);ctx.lineTo(bx,by+bh);ctx.lineTo(bx,by+bh-cs);ctx.stroke();
-      ctx.fillStyle='rgba(0,255,60,'+(alpha*.48)+')';ctx.font='9px monospace';ctx.fillText(b.lbl,bx,by-4);
-    });
-    scanY=(scanY+.7)%H;
-    var sg=ctx.createLinearGradient(0,scanY-28,0,scanY+28);sg.addColorStop(0,'transparent');sg.addColorStop(.5,'rgba(0,255,60,.045)');sg.addColorStop(1,'transparent');ctx.fillStyle=sg;ctx.fillRect(0,scanY-28,W,56);
-    if(frame%100<55){var cx=W/2,cy=H/2;ctx.strokeStyle='rgba(0,255,60,.2)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,38,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(cx-55,cy);ctx.lineTo(cx+55,cy);ctx.moveTo(cx,cy-55);ctx.lineTo(cx,cy+55);ctx.stroke();}
-    frame++;requestAnimationFrame(draw);
-  }
-  draw();
-})();
+function openModal(t, d) {
+    document.getElementById('m-title').innerText = t;
+    document.getElementById('m-desc').innerText = d;
+    document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
-// CONTROLS
-(function(){
-  var c=document.getElementById('bg-controls'); if(!c)return;
-  var ctx=c.getContext('2d');
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
-  rsz(); window.addEventListener('resize',rsz);
-  var lines=[];
-  for(var i=0;i<14;i++)lines.push({prog:Math.random(),speed:.0015+Math.random()*.002,axis:i%2,pos:Math.random(),col:i%3===0?'rgba(0,200,255,0.18)':'rgba(0,120,255,0.09)'});
-  var dims=[[.08,.22,.45,.22,'dx=2.4m'],[.62,.28,.62,.72,'dy=1.8m'],[.18,.65,.72,.80,'TRAJECTORY']];
-  function draw(){
-    var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
-    ctx.strokeStyle='rgba(0,120,255,.065)';ctx.lineWidth=1;
-    for(var x=0;x<W;x+=100){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(var y=0;y<H;y+=100){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    ctx.strokeStyle='rgba(0,120,255,.025)';ctx.lineWidth=.5;
-    for(var x=0;x<W;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(var y=0;y<H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    dims.forEach(function(d){
-      var x1=d[0]*W,y1=d[1]*H,x2=d[2]*W,y2=d[3]*H;
-      ctx.strokeStyle='rgba(0,160,255,.2)';ctx.lineWidth=1;ctx.setLineDash([6,4]);
-      ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);
-      [0,1].forEach(function(end){var px=end?x2:x1,py=end?y2:y1,ang=Math.atan2(y2-y1,x2-x1)+(end?0:Math.PI);ctx.fillStyle='rgba(0,160,255,.24)';ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-8*Math.cos(ang-.32),py-8*Math.sin(ang-.32));ctx.lineTo(px-8*Math.cos(ang+.32),py-8*Math.sin(ang+.32));ctx.closePath();ctx.fill();});
-      ctx.fillStyle='rgba(0,160,255,.32)';ctx.font='10px monospace';ctx.fillText(d[4],(x1+x2)/2+4,(y1+y2)/2-7);
-    });
-    lines.forEach(function(l){l.prog=(l.prog+l.speed)%1;ctx.strokeStyle=l.col;ctx.lineWidth=1.5;ctx.beginPath();if(l.axis===0){ctx.moveTo(0,l.pos*H);ctx.lineTo(l.prog*W,l.pos*H);}else{ctx.moveTo(l.pos*W,0);ctx.lineTo(l.pos*W,l.prog*H);}ctx.stroke();});
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
+const obs = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold: 0.1});
 
-// MECHATRONICS
-(function(){
-  var c=document.getElementById('bg-mechatronics');if(!c)return;
-  var ctx=c.getContext('2d'),hexes=[],t=0;
-  function buildH(W,H){hexes=[];var r=38,rH=r*1.732,cW=r*1.5;for(var row=-1;row<H/rH+2;row++)for(var col=-1;col<W/cW+2;col++)hexes.push({x:col*cW+(row%2?r*.75:0),y:row*rH,r:r,ph:Math.random()*Math.PI*2});}
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;buildH(c.width,c.height);}
-  rsz();window.addEventListener('resize',rsz);
-  function hexPath(x,y,r){ctx.beginPath();for(var i=0;i<6;i++){var a=i*Math.PI/3-Math.PI/6;i===0?ctx.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):ctx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}ctx.closePath();}
-  function draw(){
-    var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
-    hexes.forEach(function(h){var p=Math.sin(t*.012+h.ph)*.5+.5;ctx.strokeStyle='rgba(180,180,210,'+(0.032+p*.038)+')';ctx.lineWidth=.8;hexPath(h.x,h.y,h.r);ctx.stroke();});
-    var sw=(Math.sin(t*.006)*.5+.5)*W,cg=ctx.createLinearGradient(sw-220,0,sw+220,0);cg.addColorStop(0,'transparent');cg.addColorStop(.5,'rgba(255,255,255,.038)');cg.addColorStop(1,'transparent');ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
-    t++;requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// REHABILITATION
-(function(){
-  var c=document.getElementById('bg-rehabilitation');if(!c)return;
-  var ctx=c.getContext('2d'),t=0,spikes=[],spikeT=0;
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;}
-  rsz();window.addEventListener('resize',rsz);
-  var waves=[[.018,.08,0,'rgba(0,220,180,0.12)',1.5],[.032,.04,1.3,'rgba(0,220,180,0.06)',1],[.011,.12,2.5,'rgba(0,180,140,0.08)',2]];
-  function draw(){
-    var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
-    ctx.strokeStyle='rgba(0,220,180,.033)';ctx.lineWidth=.5;
-    for(var x=0;x<W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(var y=0;y<H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    waves.forEach(function(w){ctx.strokeStyle=w[3];ctx.lineWidth=w[4];ctx.beginPath();for(var x=0;x<=W;x+=3){var y=H*.5+Math.sin(x*w[0]+t*.035+w[2])*H*w[1]+Math.sin(x*w[0]*.3+t*.018+w[2])*H*w[1]*.45;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.stroke();});
-    spikeT++;if(spikeT>85){spikes.push({x:W+60,life:0});spikeT=0;}
-    spikes=spikes.filter(function(s){return s.x>-80;});
-    spikes.forEach(function(s){s.x-=2.2;s.life++;var alpha=Math.max(0,1-s.life/110)*.42,py=H*.5;ctx.strokeStyle='rgba(0,220,180,'+alpha+')';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(s.x,py);ctx.lineTo(s.x+8,py-28);ctx.lineTo(s.x+16,py+13);ctx.lineTo(s.x+26,py-55);ctx.lineTo(s.x+36,py+18);ctx.lineTo(s.x+44,py);ctx.stroke();});
-    t++;requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// EMBODIED AI
-(function(){
-  var c=document.getElementById('bg-embodiedai');if(!c)return;
-  var ctx=c.getContext('2d'),nodes=[],t=0;
-  function buildN(W,H){nodes=[];for(var i=0;i<30;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.42,vy:(Math.random()-.5)*.42,r:Math.random()*2.4+1.1,ph:Math.random()*Math.PI*2});}
-  function rsz(){c.width=c.offsetWidth;c.height=c.offsetHeight;buildN(c.width,c.height);}
-  rsz();window.addEventListener('resize',rsz);
-  var cols=Math.max(1,Math.floor(innerWidth/22)),drops=[];
-  for(var i=0;i<cols;i++)drops.push(Math.floor(Math.random()*-50));
-  function draw(){
-    var W=c.width,H=c.height;ctx.clearRect(0,0,W,H);
-    for(var y=0;y<H;y+=4){ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(0,y,W,2);}
-    ctx.fillStyle='rgba(255,0,128,.09)';ctx.font='12px monospace';
-    drops.forEach(function(d,i){if(d*18>0&&d*18<H)ctx.fillText('01*-'[Math.floor(Math.random()*4)],i*22,d*18);drops[i]=(d*18>H+40)?-5:d+.5;});
-    nodes.forEach(function(n){n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;n.ph+=.018;});
-    nodes.forEach(function(a,i){for(var j=i+1;j<nodes.length;j++){var b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<170){var al=(1-dist/170)*.15,p=(Math.sin(a.ph)*Math.sin(b.ph)+1)*.5;ctx.strokeStyle='rgba(255,0,128,'+(al*p)+')';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}});
-    nodes.forEach(function(n){var p=(Math.sin(n.ph)+1)*.5,g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*3.5);g.addColorStop(0,'rgba(255,0,128,'+(0.48+p*.32)+')');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.x,n.y,n.r*3.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,130,195,'+(0.68+p*.2)+')';ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();});
-    t++;requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// INIT
-renderCards();
+window.onload = () => {
+    render();
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+};
+</script>
+</body>
+</html>
