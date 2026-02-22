@@ -33,15 +33,37 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
 #bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
 /* ══ SCREEN LAYER SYSTEM ══
-   All screens sit at z-index 1, absolutely over each other.
-   Visibility toggled via .active class (opacity + pointer-events). */
-#root { position:fixed; inset:0; z-index:1; }
+   Screens slide in/out using translateX transforms.
+   .active = visible and interactive
+   .slide-left = off to the left (previous screen going away right→left)
+   .slide-right = off to the right (next screen entering left→right)
+*/
+#root { position:fixed; inset:0; z-index:1; overflow:hidden; }
+
 .screen {
   position:absolute; inset:0;
-  opacity:0; pointer-events:none;
-  transition:opacity .5s ease;
+  transform:translateX(100%);
+  opacity:0;
+  pointer-events:none;
+  transition:transform .45s cubic-bezier(.4,0,.2,1), opacity .45s ease;
+  will-change:transform, opacity;
 }
-.screen.active { opacity:1; pointer-events:all; }
+.screen.active {
+  transform:translateX(0);
+  opacity:1;
+  pointer-events:all;
+}
+.screen.exit-left {
+  transform:translateX(-100%);
+  opacity:0;
+  pointer-events:none;
+}
+/* Home screen starts active */
+#s-home {
+  transform:translateX(0);
+  opacity:1;
+  pointer-events:all;
+}
 
 /* ══════════════════════════════════
    HOME SCREEN
@@ -49,8 +71,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
 #s-home {
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  padding:2rem;
-  /* leave room for nothing — flex centering handles it */
+  padding:2rem 2rem 6rem; /* bottom padding leaves room for stats strip */
 }
 
 /* stat strip at very bottom */
@@ -285,9 +306,6 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
               text-transform:uppercase; color:rgba(255,255,255,.26); margin-bottom:.55rem; }
 #m-tags { display:flex; flex-wrap:wrap; gap:.35rem; }
 
-/* ══ TRANSITION CANVAS ══ */
-#fx { position:fixed; inset:0; z-index:7000; pointer-events:none; opacity:0; }
-
 /* ══ SHARED ANIM ══ */
 @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 @keyframes pulse  { 0%,100%{opacity:.1} 50%{opacity:.4} }
@@ -318,9 +336,6 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
 <div id="cur-ring"></div>
 <div id="lens"></div>
 
-<!-- TRANSITION FX CANVAS -->
-<canvas id="fx"></canvas>
-
 <!-- MODAL -->
 <div id="modal">
   <div id="modal-scrim"></div>
@@ -348,14 +363,14 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
       <p class="h-eyebrow">Mechatronics &amp; Robotics Engineer &mdash; NYU 2026</p>
 
       <div class="h-name">
-        ASHWIK <span>MANOJ</span>TATINENI</span>
+        ASHWIK <span>MANOJ</span> TATINENI
       </div>
 
       <p class="h-role">Building robots that perceive, reason &amp; act &mdash; from wearables to embodied AI</p>
 
-      <!-- DOMAIN PORTALS -->
+      <!-- DOMAIN PORTALS — clicking goes DIRECTLY to that domain's projects -->
       <div class="portals">
-        <button class="portal" id="p-perception" style="--pc:#00ff3c;--glow:rgba(0,255,60,.18)">
+        <button class="portal" id="p-perception" data-domain="perception" style="--pc:#00ff3c;--glow:rgba(0,255,60,.18)">
           <svg viewBox="0 0 34 34" fill="none">
             <circle cx="17" cy="17" r="8.5" stroke="#00ff3c" stroke-width="1.2"/>
             <circle cx="17" cy="17" r="3" fill="#00ff3c"/>
@@ -369,7 +384,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
           <span class="portal-lbl">Perception</span>
         </button>
 
-        <button class="portal" id="p-controls" style="--pc:#4db8ff;--glow:rgba(77,184,255,.18)">
+        <button class="portal" id="p-controls" data-domain="controls" style="--pc:#4db8ff;--glow:rgba(77,184,255,.18)">
           <svg viewBox="0 0 34 34" fill="none">
             <polygon points="17,3 30,10 30,24 17,31 4,24 4,10" stroke="#4db8ff" stroke-width="1.2" fill="none"/>
             <circle cx="17" cy="17" r="4.5" fill="#4db8ff" opacity=".9"/>
@@ -380,7 +395,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
           <span class="portal-lbl">Controls</span>
         </button>
 
-        <button class="portal" id="p-mechatronics" style="--pc:#c0c0d8;--glow:rgba(192,192,216,.14)">
+        <button class="portal" id="p-mechatronics" data-domain="mechatronics" style="--pc:#c0c0d8;--glow:rgba(192,192,216,.14)">
           <svg viewBox="0 0 34 34" fill="none">
             <circle cx="17" cy="17" r="6" stroke="#c0c0d8" stroke-width="1.3" fill="none"/>
             <circle cx="17" cy="17" r="2" fill="#c0c0d8"/>
@@ -396,7 +411,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
           <span class="portal-lbl">Mechatronics</span>
         </button>
 
-        <button class="portal" id="p-rehab" style="--pc:#00dca8;--glow:rgba(0,220,168,.18)">
+        <button class="portal" id="p-rehab" data-domain="rehab" style="--pc:#00dca8;--glow:rgba(0,220,168,.18)">
           <svg viewBox="0 0 34 34" fill="none">
             <path d="M2 17 L6 17 L9 10 L12 23 L15 5 L18 20 L21 14 L32 14"
               stroke="#00dca8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
@@ -406,7 +421,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
           <span class="portal-lbl">Rehab Tech</span>
         </button>
 
-        <button class="portal" id="p-ai" style="--pc:#ff0080;--glow:rgba(255,0,128,.2)">
+        <button class="portal" id="p-ai" data-domain="ai" style="--pc:#ff0080;--glow:rgba(255,0,128,.2)">
           <svg viewBox="0 0 34 34" fill="none">
             <circle cx="17" cy="6" r="3.5" fill="#ff0080"/>
             <circle cx="7"  cy="24" r="3.5" fill="#00c8ff"/>
@@ -424,10 +439,11 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
       <!-- About & Contact pill -->
       <div class="h-pills">
         <button class="hpill" id="go-info">About &amp; Contact</button>
+        <button class="hpill" id="go-domains">All Domains</button>
       </div>
     </div>
 
-    <!-- Stats pinned to bottom, INSIDE the flex column, not overlapping -->
+    <!-- Stats pinned to bottom -->
     <div class="home-stats-strip">
       <div class="hstat"><span class="hstat-num">7+</span><span class="hstat-label">Projects</span></div>
       <div class="hstat"><span class="hstat-num">3</span><span class="hstat-label">Research Roles</span></div>
@@ -501,7 +517,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
     </div>
   </div>
 
-  <!-- ── DOMAIN PICKER ── -->
+  <!-- ── DOMAIN PICKER (accessible via "All Domains" button) ── -->
   <div class="screen" id="s-domains">
     <div class="dom-eyebrow">// SELECT A DOMAIN</div>
     <div class="dom-title">Choose Your Field</div>
@@ -585,7 +601,7 @@ body { background:#07070f; color:#eee; font-family:'DM Sans',sans-serif; cursor:
   <!-- ── PROJECT LIST ── -->
   <div class="screen" id="s-projects">
     <div id="proj-header">
-      <button id="proj-back-btn">&#8592; Domains</button>
+      <button id="proj-back-btn">&#8592; Back</button>
       <span id="proj-badge"></span>
       <span id="proj-domain-name"></span>
     </div>
@@ -686,113 +702,109 @@ var DATA = {
 };
 
 /* ══════════════════════════════════════════
-   SCREEN MANAGER
+   SCREEN MANAGER — SLIDE TRANSITIONS
 ══════════════════════════════════════════ */
-var fxCvs = document.getElementById('fx');
-var fxCtx = fxCvs.getContext('2d');
-var fxRunning = false;
+var currentScreen = 's-home';
+// Track where project list was entered from (home or domains)
+var projBackTarget = 'home';
+var isTransitioning = false;
 
-function showScreen(id, originEl) {
-  // originEl: the button/element that was clicked (for ripple origin)
-  var from = document.querySelector('.screen.active');
-  var to   = document.getElementById(id);
-  if (!to || from === to) return;
+function showScreen(toId, direction) {
+  // direction: 'forward' (new slides in from right) or 'back' (new slides in from left)
+  if (toId === currentScreen || isTransitioning) return;
+  isTransitioning = true;
 
-  var ox = window.innerWidth / 2, oy = window.innerHeight / 2;
-  if (originEl) {
-    var r = originEl.getBoundingClientRect();
-    ox = r.left + r.width / 2;
-    oy = r.top  + r.height / 2;
+  var fromEl = document.getElementById(currentScreen);
+  var toEl   = document.getElementById(toId);
+  if (!fromEl || !toEl) { isTransitioning = false; return; }
+
+  var dir = direction || 'forward';
+
+  // Position the incoming screen off-screen in the correct direction
+  if (dir === 'forward') {
+    // New screen enters from right
+    toEl.style.transition = 'none';
+    toEl.style.transform  = 'translateX(100%)';
+    toEl.style.opacity    = '0';
+  } else {
+    // New screen enters from left (going back)
+    toEl.style.transition = 'none';
+    toEl.style.transform  = 'translateX(-100%)';
+    toEl.style.opacity    = '0';
+  }
+  toEl.style.pointerEvents = 'none';
+
+  // Force reflow
+  toEl.getBoundingClientRect();
+
+  // Animate both screens
+  var DURATION = '0.45s';
+  var EASING   = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+  fromEl.style.transition = 'transform ' + DURATION + ' ' + EASING + ', opacity ' + DURATION + ' ease';
+  toEl.style.transition   = 'transform ' + DURATION + ' ' + EASING + ', opacity ' + DURATION + ' ease';
+
+  if (dir === 'forward') {
+    fromEl.style.transform = 'translateX(-100%)';
+    fromEl.style.opacity   = '0';
+  } else {
+    fromEl.style.transform = 'translateX(100%)';
+    fromEl.style.opacity   = '0';
   }
 
-  // get accent color from the element if available
-  var accentRaw = originEl ? getComputedStyle(originEl).getPropertyValue('--pc').trim() : '';
-  var accentHex = accentRaw || '#c97dff';
+  toEl.style.transform = 'translateX(0)';
+  toEl.style.opacity   = '1';
 
-  runRipple(ox, oy, accentHex, function() {
-    from.classList.remove('active');
-    to.classList.add('active');
-  });
-}
+  setTimeout(function() {
+    fromEl.classList.remove('active');
+    fromEl.style.pointerEvents = 'none';
+    fromEl.style.transition = '';
 
-function runRipple(ox, oy, color, midCb) {
-  if (fxRunning) { midCb(); return; }
-  fxRunning = true;
-  fxCvs.width  = window.innerWidth;
-  fxCvs.height = window.innerHeight;
-  fxCvs.style.opacity = '1';
+    toEl.classList.add('active');
+    toEl.style.pointerEvents = 'all';
+    toEl.style.transition = '';
 
-  var W = fxCvs.width, H = fxCvs.height;
-  var maxR = Math.sqrt(Math.pow(Math.max(ox, W - ox), 2) + Math.pow(Math.max(oy, H - oy), 2)) + 10;
-
-  var frame = 0, TOTAL = 52, MID = 26;
-  var cbDone = false;
-
-  function step() {
-    frame++;
-    fxCtx.clearRect(0, 0, W, H);
-    fxCtx.globalCompositeOperation = 'source-over';
-
-    if (frame <= MID) {
-      // expanding filled circle
-      var p  = frame / MID;
-      var r  = p * maxR;
-      var grd = fxCtx.createRadialGradient(ox, oy, 0, ox, oy, r);
-      grd.addColorStop(0,   color);
-      grd.addColorStop(0.65, color);
-      grd.addColorStop(1,   'transparent');
-      fxCtx.fillStyle = grd;
-      fxCtx.beginPath(); fxCtx.arc(ox, oy, r, 0, Math.PI * 2); fxCtx.fill();
-      if (!cbDone) { cbDone = true; midCb(); }
-    } else {
-      // shrinking hole — solid fill minus growing transparent circle
-      var p2 = (frame - MID) / (TOTAL - MID);
-      var innerR = p2 * maxR;
-      fxCtx.fillStyle = color;
-      fxCtx.fillRect(0, 0, W, H);
-      fxCtx.globalCompositeOperation = 'destination-out';
-      fxCtx.beginPath(); fxCtx.arc(ox, oy, innerR, 0, Math.PI * 2); fxCtx.fill();
-      fxCtx.globalCompositeOperation = 'source-over';
-    }
-
-    if (frame >= TOTAL) {
-      fxCvs.style.opacity = '0';
-      fxRunning = false;
-      return;
-    }
-    requestAnimationFrame(step);
-  }
-  step();
+    currentScreen = toId;
+    isTransitioning = false;
+  }, 460);
 }
 
 /* ══════════════════════════════════════════
    WIRING: HOME BUTTONS
 ══════════════════════════════════════════ */
-// "About & Contact" pill
-document.getElementById('go-info').addEventListener('click', function(e) {
-  showScreen('s-info', this);
+// "About & Contact" pill → info screen
+document.getElementById('go-info').addEventListener('click', function() {
+  showScreen('s-info', 'forward');
 });
 
-// Domain portal buttons → go to domain picker screen
-['p-perception','p-controls','p-mechatronics','p-rehab','p-ai'].forEach(function(id) {
-  var btn = document.getElementById(id);
-  if (!btn) return;
+// "All Domains" pill → domain picker
+document.getElementById('go-domains').addEventListener('click', function() {
+  showScreen('s-domains', 'forward');
+});
+
+// Domain portal buttons on HOME → go DIRECTLY to project list
+document.querySelectorAll('.portal[data-domain]').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    showScreen('s-domains', btn);
+    var domain = btn.getAttribute('data-domain');
+    loadProjectList(domain);
+    projBackTarget = 'home'; // back button on project list goes home
+    showScreen('s-projects', 'forward');
   });
 });
 
 /* ══════════════════════════════════════════
    WIRING: BACK BUTTONS
 ══════════════════════════════════════════ */
+// Generic [data-to] back buttons
 document.querySelectorAll('[data-to]').forEach(function(btn) {
   btn.addEventListener('click', function() {
-    showScreen('s-' + btn.getAttribute('data-to'), btn);
+    showScreen('s-' + btn.getAttribute('data-to'), 'back');
   });
 });
 
+// Project list back button — dynamic target
 document.getElementById('proj-back-btn').addEventListener('click', function() {
-  showScreen('s-domains', this);
+  showScreen('s-' + projBackTarget, 'back');
 });
 
 /* ══════════════════════════════════════════
@@ -802,7 +814,8 @@ document.querySelectorAll('.dom-card').forEach(function(card) {
   card.addEventListener('click', function() {
     var domain = card.getAttribute('data-domain');
     loadProjectList(domain);
-    showScreen('s-projects', card);
+    projBackTarget = 'domains'; // back goes to domain picker
+    showScreen('s-projects', 'forward');
   });
 });
 
@@ -810,13 +823,12 @@ function loadProjectList(domain) {
   var d = DATA[domain];
   if (!d) return;
 
-  document.getElementById('proj-badge').textContent   = d.label;
-  document.getElementById('proj-badge').style.background  = d.bg;
+  document.getElementById('proj-badge').textContent        = d.label;
+  document.getElementById('proj-badge').style.background   = d.bg;
   document.getElementById('proj-badge').style.color        = d.color;
   document.getElementById('proj-badge').style.border       = '1px solid ' + d.color + '55';
   document.getElementById('proj-domain-name').textContent  = d.label.toUpperCase();
   document.getElementById('proj-domain-name').style.color  = d.color;
-  document.documentElement.style.setProperty('--dc-active', d.color);
 
   var list = document.getElementById('proj-list');
   list.innerHTML = '';
@@ -925,28 +937,16 @@ document.querySelectorAll('button,a,.dom-card,.proj-row,.clink,.portal').forEach
 });
 
 // domain cursor on hover
-var domainCursorMap = { perception:'perception', controls:'controls', mechatronics:'mechatronics', rehab:'rehab', ai:'ai' };
 document.querySelectorAll('[data-domain]').forEach(function(el) {
+  var domainCursorMap = { perception:'perception', controls:'controls', mechatronics:'mechatronics', rehab:'rehab', ai:'ai' };
   el.addEventListener('mouseenter', function() { setCursor(domainCursorMap[el.getAttribute('data-domain')] || 'home'); });
-  el.addEventListener('mouseleave', function() { setCursor(curMode); }); // sticky on leave
-});
-// reset on portal/domain leave to home
-document.querySelectorAll('.portal, .dom-card').forEach(function(el) {
   el.addEventListener('mouseleave', function() {
-    var active = document.querySelector('.screen.active');
+    var active = document.getElementById(currentScreen);
     if (active && active.id === 's-home') setCursor('home');
     else if (active && active.id === 's-info') setCursor('info');
+    else setCursor('home');
   });
 });
-
-// screen-level cursor mode
-var screenCursorMap = { 's-home':'home', 's-info':'info', 's-domains':'home', 's-projects':'home' };
-var screenObs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting && screenCursorMap[e.target.id]) setCursor(screenCursorMap[e.target.id]);
-  });
-}, { threshold: 0.5 });
-document.querySelectorAll('.screen').forEach(function(s) { screenObs.observe(s); });
 
 /* ══════════════════════════════════════════
    BACKGROUND CANVAS
@@ -967,19 +967,16 @@ var nodes = Array.from({ length: 16 }, function() {
 function drawBg() {
   var W = bgCvs.width, H = bgCvs.height;
   bgCtx.clearRect(0, 0, W, H);
-  // gradient orbs
   [[.2,.62,.34,'rgba(130,70,200,'],[.82,.28,.26,'rgba(50,170,155,'],[.55,.88,.2,'rgba(190,55,135,']].forEach(function(o) {
     var g = bgCtx.createRadialGradient(o[0]*W,o[1]*H,0,o[0]*W,o[1]*H,o[2]*Math.max(W,H));
     g.addColorStop(0,o[3]+'0.08)'); g.addColorStop(1,'transparent');
     bgCtx.fillStyle=g; bgCtx.fillRect(0,0,W,H);
   });
-  // particles
   particles.forEach(function(p) {
     p.x=(p.x+p.vx+1)%1; p.y=(p.y+p.vy+1)%1;
     bgCtx.beginPath(); bgCtx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);
     bgCtx.fillStyle='rgba(200,150,255,'+p.a+')'; bgCtx.fill();
   });
-  // subtle net
   nodes.forEach(function(n) { n.x+=n.vx; n.y+=n.vy; if(n.x<0||n.x>W)n.vx*=-1; if(n.y<0||n.y>H)n.vy*=-1; });
   nodes.forEach(function(a, i) {
     for (var j = i+1; j < nodes.length; j++) {
